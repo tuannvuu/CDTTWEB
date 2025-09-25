@@ -14,7 +14,8 @@ use App\Http\Controllers\Client\CategoryClientController;
 use App\Http\Controllers\Client\ProductClientController;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\Client\AboutController;
-use App\Http\Controllers\Client\PostController; // thêm use cho PostController
+use App\Http\Controllers\Client\PostController;
+use App\Http\Controllers\Admin\ChangePasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,129 +23,121 @@ use App\Http\Controllers\Client\PostController; // thêm use cho PostController
 |--------------------------------------------------------------------------
 */
 
-// Xem tất cả sản phẩm (Client)
-Route::get('/category/{id}', [CategoryClientController::class, 'detail'])->name('category');
-
-// Xem chi tiết theo category
-Route::get('/category/{id}', [CategoryClientController::class, 'detail'])->name('category');
-
-// Load thêm sản phẩm (ajax)
-Route::get('/load-more-products', [ProductClientController::class, 'loadMore'])->name('products.loadMore');
-
-// About pages
-Route::get('/about', [AboutController::class, 'index'])->name('about');
-Route::get('/about/team', [AboutController::class, 'team'])->name('about.team');
-Route::get('/about/contact', [AboutController::class, 'contact'])->name('about.contact');
-
 // Trang chủ
 Route::get('/', [HomeController::class, 'index'])->name('homepage');
 
-// Giỏ hàng
-Route::post('/cartadd/{id}', [CartController::class, 'add'])->name('cartadd');
-Route::get('/cartdel/{id}', [CartController::class, 'del'])->name('cartdel');
-Route::post('/cartsave', [CartController::class, 'save'])->name('cartsave');
-
-// ⚠️ trước là return view, giờ đổi thành controller để đúng chuẩn
-Route::get('/cartshow', [CartController::class, 'show'])->name('cartshow');
-Route::get('/cartcheckout', function () {
-    return view('client.cart.checkout');
-})->name('checkout');
-
-// Routes sản phẩm phía client
+// Category & Products
+Route::get('/category/{id}', [CategoryClientController::class, 'detail'])->name('category');
+Route::get('/load-more-products', [ProductClientController::class, 'loadMore'])->name('products.loadMore');
 Route::prefix('products')->name('client.products.')->group(function () {
     Route::get('/', [ProductClientController::class, 'index'])->name('index');
     Route::get('/detail/{id}', [ProductClientController::class, 'detail'])->name('detail');
     Route::get('/search', [ProductClientController::class, 'search'])->name('search');
 });
 
-// Route test giao diện client (có thể xóa nếu không cần)
-Route::get('/client', function () {
-    return view('layout.client');
-})->name('layout.client');
+// Giỏ hàng
+Route::post('/cartadd/{id}', [CartController::class, 'add'])->name('cartadd');
+Route::get('/cartdel/{id}', [CartController::class, 'del'])->name('cartdel');
+Route::post('/cartsave', [CartController::class, 'save'])->name('cartsave');
+Route::get('/cartshow', [CartController::class, 'show'])->name('cartshow');
+Route::get('/cartcheckout', function () {
+    return view('client.cart.checkout');
+})->name('checkout');
 
-// Trang đăng tin cho khách (public, không nằm trong admin)
-// Trang đăng tin cho khách (nên dùng posts thay vì post để chuẩn RESTful)
+// About pages
+Route::get('/about', [AboutController::class, 'index'])->name('about');
+Route::get('/about/team', [AboutController::class, 'team'])->name('about.team');
+Route::get('/about/contact', [AboutController::class, 'contact'])->name('about.contact');
+
+// Posts (client)
 Route::prefix('posts')->name('posts.')->group(function () {
     Route::get('/create', [PostController::class, 'create'])->name('create');
     Route::post('/store', [PostController::class, 'store'])->name('store');
 });
 
 
-
 /*
 |--------------------------------------------------------------------------
-| AUTHENTICATION ROUTES (Login, Register, Password reset)
+| AUTH ROUTES (Login, Register, Forgot/Reset Password)
 |--------------------------------------------------------------------------
 */
 
-// Đăng ký user
+// Đăng ký & đăng nhập
 Route::get('/admin/create', [UserController::class, 'create'])->name('ad.create');
 Route::post('/admin/create', [UserController::class, 'store'])->name('ad.store');
-
-// Đăng nhập
 Route::get('/admin/login', [UserController::class, 'login'])->name('ad.login');
 Route::post('/admin/login', [UserController::class, 'loginpost'])->name('ad.loginpost');
 Route::get('/login', [UserController::class, 'login'])->name('login');
 
-// Quên mật khẩu
+// Quên & reset mật khẩu
 Route::get('/admin/forgotpass', [UserController::class, 'forgotpassform'])->name('ad.forgotpass');
 Route::post('/admin/forgotpass', [UserController::class, 'forgotpass'])->name('ad.forgotpasspost');
-
-// Reset mật khẩu
 Route::get('/admin/resetpass/{id}', [UserController::class, 'showResetForm'])->name('ad.reset.form');
 Route::post('/admin/resetpass/{id}', [UserController::class, 'handleReset'])->name('ad.reset');
+
+// Đổi mật khẩu
+Route::get('/admin/change-password', [UserController::class, 'showChangeForm'])
+    ->name('ad.changepass.form')
+    ->middleware('auth');
+Route::post('/admin/change-password', [UserController::class, 'changePassword'])
+    ->name('ad.changepass.update')
+    ->middleware('auth');
 
 
 /*
 |--------------------------------------------------------------------------
-| ADMIN ROUTES (Cần đăng nhập mới vào được)
+| ADMIN ROUTES (Cần đăng nhập)
 |--------------------------------------------------------------------------
 */
 Route::prefix('admin')->middleware('auth')->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('ad.dashboard');
 
-    // Customer & Order
-    Route::name('ad.')->group(function () {
-        Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
-        Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-        Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
+    // Logout
+    Route::post('/logout', [UserController::class, 'logout'])->name('ad.logout');
 
-        // Logout & đổi mật khẩu
-        Route::post('/logout', [UserController::class, 'logout'])->name('logout');
-        Route::get('/changepass', [UserController::class, 'showChangePassForm'])->name('changepass.form');
-        Route::post('/changepass', [UserController::class, 'changepass'])->name('changepass');
+    // Customers & Orders
+    Route::get('/customers', [CustomerController::class, 'index'])->name('ad.customers.index');
+    Route::get('/orders', [OrderController::class, 'index'])->name('ad.orders.index');
+    Route::get('/orders/{id}', [OrderController::class, 'show'])->name('ad.orders.show');
+
+    // Categories (role 1) - Sửa tên route thành cate.index
+    Route::prefix('categories')->name('cate.')->middleware(RoleMiddleware::class . ':1')->group(function () {
+        Route::get('/', [CategoryController::class, 'index'])->name('index');
+        Route::get('/create', [CategoryController::class, 'create'])->name('create');
+        Route::post('/store', [CategoryController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [CategoryController::class, 'edit'])->name('edit');
+        Route::post('/{id}', [CategoryController::class, 'update'])->name('update');
+        Route::post('/{id}/delete', [CategoryController::class, 'delete'])->name('delete');
     });
 
-    // Category Management (chỉ role 1 mới vào được)
-    Route::name('cate.')->middleware(RoleMiddleware::class . ':1')->group(function () {
-        Route::get('/categories', [CategoryController::class, 'index'])->name('index');
-        Route::get('/categories/create', [CategoryController::class, 'create'])->name('create');
-        Route::post('/categories/store', [CategoryController::class, 'store'])->name('store');
-        Route::get('/categories/{id}/edit', [CategoryController::class, 'edit'])->name('edit');
-        Route::post('/categories/{id}', [CategoryController::class, 'update'])->name('update');
-        Route::post('/categories/{id}/delete', [CategoryController::class, 'delete'])->name('delete');
+    // Brands (role 1) - Sửa tên route thành brand.index
+    Route::prefix('brands')->name('brand.')->middleware(RoleMiddleware::class . ':1')->group(function () {
+        Route::get('/', [BrandController::class, 'index'])->name('index');
+        Route::get('/create', [BrandController::class, 'create'])->name('create');
+        Route::post('/store', [BrandController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [BrandController::class, 'edit'])->name('edit');
+        Route::post('/{id}', [BrandController::class, 'update'])->name('update');
+        Route::post('/{id}/delete', [BrandController::class, 'delete'])->name('delete');
     });
 
-    // Brand Management (chỉ role 1 mới vào được)
-    Route::name('brand.')->middleware(RoleMiddleware::class . ':1')->group(function () {
-        Route::get('/brands', [BrandController::class, 'index'])->name('index');
-        Route::get('/brands/create', [BrandController::class, 'create'])->name('create');
-        Route::post('/brands/store', [BrandController::class, 'store'])->name('store');
-        Route::get('/brands/{id}/edit', [BrandController::class, 'edit'])->name('edit');
-        Route::post('/brands/{id}', [BrandController::class, 'update'])->name('update');
-        Route::post('/brands/{id}/delete', [BrandController::class, 'delete'])->name('delete');
+    // Products
+    Route::prefix('products')->name('ad.pro.')->group(function () {
+        Route::get('/', [ProductController::class, 'index'])->name('index');
+        Route::get('/create', [ProductController::class, 'create'])->name('create');
+        Route::post('/store', [ProductController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [ProductController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [ProductController::class, 'update'])->name('update');
+        Route::post('/{id}/delete', [ProductController::class, 'delete'])->name('delete');
     });
 
-    // Product Management
-    Route::get('/products', [ProductController::class, 'index'])->name('pro.index');
-    Route::get('/products/create', [ProductController::class, 'create'])->name('pro.create');
-    Route::post('/products/store', [ProductController::class, 'store'])->name('pro.store');
-    Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('pro.edit');
-    Route::put('/products/{id}', [ProductController::class, 'update'])->name('pro.update');
-    Route::post('/products/{id}/delete', [ProductController::class, 'delete'])->name('pro.delete');
-
-    // User Management
-    Route::get('/users', [UserController::class, 'index'])->name('users.index');
-    Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+    // Users (role 1)
+    Route::prefix('users')->name('ad.users.')->middleware(RoleMiddleware::class . ':1')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('index');           // danh sách user
+        Route::get('/create', [UserController::class, 'create'])->name('create');  // form thêm user
+        Route::post('/store', [UserController::class, 'store'])->name('store');    // lưu user mới
+        Route::get('/{id}/edit', [UserController::class, 'edit'])->name('edit');   // form sửa
+        Route::put('/{id}', [UserController::class, 'update'])->name('update');    // cập nhật
+        Route::delete('/{id}', [UserController::class, 'destroy'])->name('destroy'); // xóa
+    });
 });

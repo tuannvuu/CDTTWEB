@@ -1,155 +1,145 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>@yield('title')</title>
-    <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'Admin Panel')</title>
 
-    <link rel="shortcut icon" href="{{ asset('storage/products/logo.jpg') }}" type="image/jpeg" />
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-
-
-    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    @yield('styles')
 </head>
 
-
-
-
-<body class="sb-nav-fixed">
-
-    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-
-        <a class="navbar-brand ps-3" href="index.html">My Admin</a>
-
-        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
-                class="fas fa-bars"></i></button>
-
-        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-            <div class="input-group">
-                <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..."
-                    aria-describedby="btnNavbarSearch" />
-                <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i
-                        class="fas fa-search"></i></button>
-            </div>
-        </form>
-
-        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
-                    data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href={{ route('ad.changepass.form') }}>Đổi mật khẩu</a></li>
-                    <li>
-                        <form action="{{ route('ad.logout') }}" method="post">
-                            @csrf
-                            <button type="submit" class="dropdown-item">Đăng xuất</button>
-                        </form>
-                    </li>
-                    <li><a class="dropdown-item" href={{ route('layout.client') }}>Quay lại trang bán hàng</a></li>
-
-                </ul>
-            </li>
-        </ul>
-    </nav>
-    <div id="layoutSidenav">
-        <div id="layoutSidenav_nav">
-            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-                <div class="sb-sidenav-menu">
-                    <div class="nav">
-
-                        <a class="nav-link" href="{{ route('cate.index') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Loại sản phẩm
-                        </a>
-
-
-                        <a class="nav-link collapsed" href="{{ route('brand.index') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                            Thương hiệu
-                        </a>
-
-
-
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                            data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                            Sản phẩm
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
-                            data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="{{ route('pro.index') }}">Danh sách</a>
-
-                            </nav>
-                        </div>
-                        <a class="nav-link collapsed" href="{{ route('ad.customers.index') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                            Khách hàng
-                        </a>
-                        <a class="nav-link collapsed" href="{{ route('ad.orders.index') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                            Đơn hàng
-                        </a>
-
-                        <hr class="sidebar-divider">
-
-                        <a class="nav-link" href="{{ route('users.index') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Người dùng
-                        </a>
-
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <div class="text-center text-white py-4">
+                        <h4><i class="fas fa-tachometer-alt me-2"></i>My Admin</h4>
                     </div>
-                </div>
-                <div class="sb-sidenav-footer">
-                    <div class="small">Logged in as:</div>
-                    {{ Auth::check() ? Auth::user()->fullname : 'Guest' }}
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link text-white {{ request()->routeIs('ad.dashboard') ? 'active bg-primary' : '' }}"
+                                href="{{ route('ad.dashboard') }}">
+                                <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white {{ request()->routeIs('ad.pro.*') ? 'active bg-primary' : '' }}"
+                                href="{{ route('ad.pro.index') }}">
+                                <i class="fas fa-box me-2"></i>Sản phẩm
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white {{ request()->routeIs('brand.index') ? 'active bg-primary' : '' }}"
+                                href="{{ route('brand.index') }}">
+                                <i class="fas fa-tags me-2"></i>Thương hiệu
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white {{ request()->routeIs('cate.index') ? 'active bg-primary' : '' }}"
+                                href="{{ route('cate.index') }}">
+                                <i class="fas fa-list me-2"></i>Danh mục
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white {{ request()->routeIs('ad.customers.index') ? 'active bg-primary' : '' }}"
+                                href="{{ route('ad.customers.index') }}">
+                                <i class="fas fa-users me-2"></i>Khách hàng
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white {{ request()->routeIs('ad.orders.index') ? 'active bg-primary' : '' }}"
+                                href="{{ route('ad.orders.index') }}">
+                                <i class="fas fa-shopping-cart me-2"></i>Đơn hàng
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </nav>
-        </div>
-        <div id="layoutSidenav_content">
-            <main>
-                @yield('content')
-            </main>
-            <footer class="py-4 bg-light mt-auto">
-                <div class="container-fluid px-4">
-                    <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; Your Website 2023</div>
-                        <div>
-                            <a href="#">Privacy Policy</a>
-                            &middot;
-                            <a href="#">Terms &amp; Conditions</a>
+
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 bg-light min-vh-100">
+                <!-- Top navbar -->
+                <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
+                    <div class="container-fluid">
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarContent">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+
+                        <div class="collapse navbar-collapse" id="navbarContent">
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('/') }}" target="_blank">
+                                        <i class="fas fa-external-link-alt me-1"></i>Xem website
+                                    </a>
+                                </li>
+                            </ul>
+
+                            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+                                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fas fa-user-circle me-1"></i>
+                                        {{ Auth::user()->name ?? 'Admin' }}
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('ad.changepass.form') }}">
+                                                <i class="fas fa-key me-2"></i>Đổi mật khẩu
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li>
+                                            <form method="POST" action="{{ route('ad.logout') }}" class="d-inline">
+                                                @csrf
+                                                <button type="submit" class="dropdown-item text-danger">
+                                                    <i class="fas fa-sign-out-alt me-2"></i>Đăng xuất
+                                                </button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
                         </div>
                     </div>
+                </nav>
+
+                <!-- Page content -->
+                <div class="container-fluid">
+                    @if (session('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    @endif
+
+                    @if (session('error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-circle me-2"></i>{{ session('error') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    @endif
+
+                    @yield('content')
                 </div>
-            </footer>
+            </main>
         </div>
     </div>
-    <script src="{{ asset('js/bootstrap.bundle.min.js') }}" crossorigin="anonymous"></script>
-    <script src="{{ asset('js/scripts.js') }}"></script>
 
-    <script>
-        fetch('/admin/data')
-            .then(res => res.json())
-            .then(data => {
-                let html = '<ul>';
-                data.forEach(user => {
-                    html += `<li>${user.fullname} - ${user.email}</li>`;
-                });
-                html += '</ul>';
-                document.getElementById('result').innerHTML = html;
-            })
-            .catch(err => {
-                console.error('Lỗi khi fetch:', err);
-                document.getElementById('result').innerText = 'Không thể lấy dữ liệu.';
-            });
-    </script>
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+    @yield('scripts')
 </body>
 
 </html>
