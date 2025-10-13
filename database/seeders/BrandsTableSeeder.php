@@ -14,7 +14,7 @@ class BrandsTableSeeder extends Seeder
     {
         for ($i = 1; $i <= 10; $i++) {
             DB::table('brands')->insert([
-                'id' => $i,
+                // Xóa 'id' => $i, để MySQL tự động gán ID
                 'brandname' => "Thương hiệu $i",
                 'description' => "Mô tả $i"
             ]);
