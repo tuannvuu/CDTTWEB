@@ -10,7 +10,13 @@ class CustomerController extends Controller
 {
     public function index()
     {
-        $customers = Customer::all(); // chỉ lấy thông tin khách hàng
+        // THAY ĐỔI TỪ:
+        // $customers = Customer::all();
+        // HOẶC:
+        // $customers = Customer::get();
+
+        // THÀNH:
+        $customers = Customer::with('orders')->paginate(10); // 10 items per page
 
         return view('admin.customers.index', compact('customers'));
     }

@@ -11,29 +11,24 @@
                 @foreach ($products as $item)
                     <div class="col">
                         <div class="card h-100 shadow-sm border-0">
-                            {{-- Product image --}}
-                            @php
-                                $imagePath = 'storage/products/h' . $item->id . '.jpg';
-                            @endphp
-                            <img src="{{ file_exists(public_path($imagePath)) ? asset($imagePath) : asset('storage/products/default.jpg') }}"
-                                 class="card-img-top"
-                                 alt="{{ $item->proname }}">
-
+                            <div>
+                            <img class="card-img-top" src="{{ asset('storage/products/' . $item->fileName) }}"
+                                 alt="{{ $item->proname }}" style="max-height:300px; object-fit:contain;" />
+</div>
                             <div class="card-body text-center">
                                 <h5 class="card-title fw-bold mb-2">{{ $item->proname }}</h5>
-                                <p class="card-text text-danger fw-semibold">{{ number_format($item->price) }}đ</p>
+                            
                             </div>
 
-                            <div class="card-footer bg-transparent border-0 d-flex justify-content-center gap-2 mb-3">
-                                <a href="{{ route('client.products.detail', $item->id) }}" class="btn btn-sm btn-outline-primary">
-                                    Xem
-                                </a>
-                                <form action="{{ route('cartadd', $item->id) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="btn btn-sm btn-success">
-                                        <i class="fas fa-cart-plus"></i> Thêm vào giỏ hàng
-                                    </button>
-                                </form>
+                             <div class="card-footer p-3 border-top-0 bg-transparent">
+                                <div class="text-center">
+                                    <span class="text-danger fw-bold d-block mb-1">
+                                        {{ number_format($item->price) }}đ
+                                    </span>
+                                    <small class="text-muted">
+                                        {{ Str::limit($item->description, 50, '...') }}
+                                    </small>
+                                </div>
                             </div>
                         </div>
                     </div>

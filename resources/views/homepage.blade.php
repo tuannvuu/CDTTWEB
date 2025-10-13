@@ -9,7 +9,9 @@
 @section('content')
     <h2 class="fw-bold">Sản phẩm mới nhất</h2>
     {{-- List sản phẩm --}}
+    
 @endsection
+
 
 @section('footer')
     @include('partials.footer')

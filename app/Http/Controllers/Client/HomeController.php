@@ -9,9 +9,12 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $listpro = Product::orderByDesc("id")->limit(12)->get();
+        // Random + phân trang (12 sp / trang)
+        $listpro = Product::inRandomOrder()->paginate(12);
+
+        // Danh mục
         $categories = Category::orderBy("catename", "asc")->get();
 
         return view("client.index", [

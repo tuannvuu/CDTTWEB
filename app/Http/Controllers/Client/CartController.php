@@ -4,36 +4,47 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Product;
 use Illuminate\Support\Facades\Session;
-use App\Models\Customer;
+use App\Models\Product;
 use App\Models\Order;
 use App\Models\OrderItem;
 
-
 class CartController extends Controller
 {
-public function show()
-{
-    // Lấy dữ liệu giỏ hàng từ session
-    $cart = session()->get('cart', []);
-    // Truyền dữ liệu sang view (client/cart/cartshow.blade.php)
-    return view('client.cart.cartshow', compact('cart'));
-}
+    // 🛒 Hiển thị giỏ hàng
+    public function show()
+    {
+        $cart = session()->get('cart', []);
+
+        $total = 0;
+        $totalQuantity = 0;
+
+        foreach ($cart as $item) {
+            $total += $item['price'] * $item['quantity'];
+            $totalQuantity += $item['quantity'];
+        }
+
+        return view('client.cart.cartshow', compact('cart', 'total', 'totalQuantity'));
+    }
+
+    // ➕ Thêm sản phẩm vào giỏ hàng
     public function add(Request $req)
     {
-        // lấy id từ URL (Xem đường dẫn -> devtool)
+        /** @var \Illuminate\Contracts\Auth\Factory|\Illuminate\Contracts\Auth\Guard $auth */
+        $auth = auth();
+
+        if (!$auth->check()) {
+            return redirect()->route('login')->with('error', 'Vui lòng đăng nhập để tiếp tục');
+        }
+
         $id = $req->route('id');
-        // Lấy product trong db
-        $product = Product::where("id", $id)->first();
-        // lấy giỏ hàng từ session, nếu chưa tồn tại trả về mảng rỗng
+        $product = Product::findOrFail($id);
+
         $cart = Session::get('cart', []);
-        // kiểm tra xem giỏ hàng có id sản phẩm chưa
+
         if (isset($cart[$id])) {
-            // nếu tồn tại rồi - tăng số lượng
             $cart[$id]['quantity'] += 1;
         } else {
-            // nếu chưa tồn tại - tạo thêm sản phẩm
             $cart[$id] = [
                 'productid' => $product->id,
                 'proname' => $product->proname,
@@ -41,72 +52,151 @@ public function show()
                 'price' => $product->price,
             ];
         }
-        // lưu lại vào session
+
         Session::put('cart', $cart);
-        // điều hướng về trang trước
-        return redirect()->back();
+
+        return redirect()->back()->with('mess', 'Đã thêm sản phẩm vào giỏ hàng');
     }
 
+
+    // ❌ Xoá sản phẩm khỏi giỏ hàng
     public function del($id)
     {
-        // lấy giỏ hàng từ session, nếu chưa tồn tại trả về mảng rỗng
         $cart = Session::get('cart', []);
-        // kiểm tra xem giỏ hàng có id sản phẩm chưa
+
         if (isset($cart[$id])) {
-            // nếu tồn tại rồi - tăng số lượng
             unset($cart[$id]);
         }
-        // lưu lại vào session
+
         Session::put('cart', $cart);
-        // điều hướng về trang trước
+
         return redirect()->back();
     }
 
-    public function save(Request $req)
+    // 💾 Lưu đơn hàng vào DB
+    public function save(Request $request)
     {
-        // kiểm tra dữ liệu đầu vào dùng validate
-        // lấy giỏ hàng từ session,
-        $cart = Session::get('cart');
-        // kiểm tra giỏ hàng có tồn tại không
+        $cart = session()->get('cart', []);
+
         if (empty($cart)) {
-            // điều hướng về trang trước với mess
-            return redirect()->back()->with('mess', 'Không tồn tại giỏ hàng');
+            return redirect()->route('cartshow')->with('error', 'Giỏ hàng trống, không thể đặt hàng.');
         }
-        // kiểm tra bảng customer có tồn tại số điện thoại chưa
-        $customer = Customer::where('tel', $req->tel)->first();
-        $customerid = null;
-        if (empty($customer)) {
-            // nếu chưa thì thêm vào DB
-            $cusafterinsert = Customer::create(
-                [
-                    'fullname' => $req->fullname,
-                    'tel' => $req->tel,
-                    'address' => $req->address
-                ]
-            );
-            $customerid = $cusafterinsert->id;
-        } else $customerid = $customer->id;
-        // lưu vào bảng orders
-        $order = Order::create(
-            [
-                'customerid' => $customerid,
-                'description' => $req->description ?? '',
-            ]
-        );
-        $orderid = $order->id;
-        // lưu vào bảng orderitems
+
+        // Tính tổng tiền
+        $total = collect($cart)->reduce(function ($carry, $item) {
+            return $carry + ($item['price'] * $item['quantity']);
+        }, 0);
+
+        // ✅ Tạo đơn hàng — không cần đăng nhập
+        $order = Order::create([
+            'customerid' => 0,
+            'fullname' => $request->fullname,
+            'tel' => $request->tel,
+            'address' => $request->address,
+            'description' => $request->description ?? 'Không có ghi chú',
+            'payment_method' => $request->payment_method,
+            'total' => $total,
+        ]);
+
+        // ✅ Lưu từng sản phẩm vào bảng order_items
         foreach ($cart as $item) {
             OrderItem::create([
-                'orderid' => $orderid,
+                'orderid' => $order->id,
                 'productid' => $item['productid'],
+                'quantity' => $item['quantity'],
                 'price' => $item['price'],
-                'quantity' => $item['quantity']
+                'subtotal' => $item['price'] * $item['quantity'],
             ]);
         }
-        // xóa giỏ hàng trong sess
-        Session::forget('cart');
-        // điều hướng về trang trước với mess (session)
-        return redirect()->back()
-            ->withInput()->with('mess', 'Đặt hàng thành công. Anh/chị vui lòng đợi nhân viên liên hệ để xác nhận');
+
+        // ✅ Xoá giỏ hàng sau khi đặt hàng
+        //session()->forget('cart');
+
+        // ✅ Điều hướng theo phương thức thanh toán
+        return match ($request->payment_method) {
+            'bank' => redirect()->route('payment.bank', ['order_id' => $order->id]),
+            'momo' => redirect()->route('payment.momo', ['order_id' => $order->id]),
+            'vnpay' => redirect()->route('payment.vnpay', ['order_id' => $order->id]),
+            default => redirect()->route('order.success', ['order_id' => $order->id])
+                ->with('success', 'Đặt hàng thành công, thanh toán khi nhận hàng.'),
+        };
+    }
+
+
+    // 💳 Thanh toán qua ngân hàng
+    public function bank($order_id)
+    {
+        $order = Order::findOrFail($order_id);
+
+        $bankData = [
+            'bank_name' => 'Vietcombank',
+            'account_no' => '0796573363',
+            'account_name' => 'Nguyễn Tuấn Vũ',
+            'amount' => $order->total,
+            'qr_image' => asset('storage/payments/qr-bank.png'),
+        ];
+
+        return view('client.payment.bank', compact('bankData', 'order_id', 'order'));
+    }
+
+
+    // 📱 Thanh toán qua Momo
+    public function momo($order_id)
+    {
+        $order = Order::with('items')->findOrFail($order_id); // lấy cả items luôn
+
+        $momoData = [
+            'phone' => '0796573363',
+            'wallet_name' => 'Nguyễn Tuấn Vũ',
+            'amount' => $order->total,
+            'qr_image' => asset('storage/payments/qr-momo.png'),
+        ];
+
+        return view('client.payment.momo', compact('momoData', 'order_id', 'order'));
+    }
+
+
+    // 💰 Thanh toán qua VNPay
+    public function vnpay($order_id)
+    {
+        return view('client.payment.vnpay', compact('order_id'));
+    }
+
+    // ✅ Trang thông báo đặt hàng thành công
+    public function success($order_id)
+    {
+        return view('client.payment.success', compact('order_id'));
+    }
+
+    // 🧾 Trang thanh toán (checkout)
+    public function checkout()
+    {
+        $cart = session()->get('cart', []);
+
+        $total = 0;
+        $totalQuantity = 0;
+
+        foreach ($cart as $item) {
+            $total += $item['price'] * $item['quantity'];
+            $totalQuantity += $item['quantity'];
+        }
+
+        return view('client.cart.checkout', compact('cart', 'total', 'totalQuantity'));
+    }
+
+    // 🔄 Cập nhật số lượng giỏ hàng
+    public function updateCart(Request $request)
+    {
+        $cart = session()->get('cart', []);
+        $id = $request->id;
+        $quantity = $request->quantity;
+
+        if (isset($cart[$id])) {
+            $cart[$id]['quantity'] = max(1, (int)$quantity);
+        }
+
+        session()->put('cart', $cart);
+
+        return redirect()->route('cart.show');
     }
 }

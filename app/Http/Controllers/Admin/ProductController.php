@@ -16,7 +16,7 @@ class ProductController extends Controller
     public function index($perpage = 5)
     {
         $list = Product::with(['category', 'brand'])
-            ->select('id', 'proname as productname', 'price', 'cateid', 'brandid', 'description') // ✅ Bỏ 'fileName'
+            ->select('id', 'proname as productname', 'price', 'cateid', 'brandid', 'description','fileName') // ✅ Bỏ 'fileName'
              ->orderBy('id', 'asc')
             ->paginate($perpage);
 

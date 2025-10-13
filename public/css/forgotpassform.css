@@ -1,0 +1,186 @@
+
+:root {
+    --primary-color: #0a0a2a;
+    --secondary-color: #1a1a3a;
+    --accent-color: #00d4ff;
+    --text-color: #e0e0ff;
+    --highlight-color: #6c42f5;
+}
+
+body {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: var(--text-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 20px;
+}
+
+.futurnet-container {
+    max-width: 450px;
+    width: 100%;
+    background: rgba(10, 10, 42, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    border: 1px solid rgba(108, 66, 245, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    position: relative;
+}
+
+.futurnet-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-color), var(--highlight-color));
+}
+
+.futurnet-header {
+    text-align: center;
+    padding: 30px 20px 20px;
+    border-bottom: 1px solid rgba(108, 66, 245, 0.2);
+}
+
+.futurnet-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, var(--accent-color), var(--highlight-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+}
+
+.futurnet-subtitle {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    letter-spacing: 2px;
+    margin-bottom: 0;
+}
+
+.futurnet-form {
+    padding: 30px;
+}
+
+.form-label {
+    color: var(--text-color);
+    font-weight: 500;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.form-control {
+    background: rgba(26, 26, 58, 0.7);
+    border: 1px solid rgba(108, 66, 245, 0.3);
+    border-radius: 8px;
+    color: var(--text-color);
+    padding: 12px 15px;
+    transition: all 0.3s;
+}
+
+.form-control:focus {
+    background: rgba(26, 26, 58, 0.9);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 0.2rem rgba(0, 212, 255, 0.25);
+    color: var(--text-color);
+}
+
+.btn-futurnet {
+    background: linear-gradient(90deg, var(--accent-color), var(--highlight-color));
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    padding: 12px;
+    width: 100%;
+    transition: all 0.3s;
+    margin-top: 10px;
+}
+
+.btn-futurnet:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(108, 66, 245, 0.4);
+}
+
+.alert {
+    border-radius: 8px;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border: none;
+}
+
+.alert-danger {
+    background: rgba(220, 53, 69, 0.2);
+    color: #ff6b7a;
+    border-left: 4px solid #dc3545;
+}
+
+.text-danger {
+    color: #ff6b7a !important;
+    font-size: 0.85rem;
+    margin-top: 5px;
+}
+
+.back-link {
+    color: var(--accent-color);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.3s;
+    font-size: 0.9rem;
+}
+
+.back-link:hover {
+    color: var(--highlight-color);
+    text-decoration: underline;
+}
+
+.futurnet-footer {
+    text-align: center;
+    padding: 20px;
+    border-top: 1px solid rgba(108, 66, 245, 0.2);
+    font-size: 0.85rem;
+    opacity: 0.7;
+}
+
+.social-login {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(26, 26, 58, 0.7);
+    border: 1px solid rgba(108, 66, 245, 0.3);
+    color: var(--text-color);
+    transition: all 0.3s;
+}
+
+.social-btn:hover {
+    background: rgba(108, 66, 245, 0.2);
+    border-color: var(--accent-color);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 576px) {
+    .futurnet-container {
+        max-width: 100%;
+    }
+
+    .futurnet-form {
+        padding: 20px;
+    }
+}

@@ -92,7 +92,7 @@
                     <h6 class="m-0 font-weight-bold text-primary">
                         <i class="fas fa-boxes me-2"></i>5 Sản phẩm mới nhất
                     </h6>
-                    <a href="{{ route('ad.pro.index') }}" class="btn btn-sm btn-primary">Xem tất cả</a>
+                    <a href="{{ route('ad.dashboard') }}" class="btn btn-sm btn-primary">Xem tất cả</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -113,16 +113,8 @@
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                @if ($product->image)
-                                                    <img src="{{ asset('storage/' . $product->image) }}"
-                                                        alt="{{ $product->name }}" class="rounded me-3" width="40"
-                                                        height="40">
-                                                @else
-                                                    <div class="bg-light rounded me-3 d-flex align-items-center justify-content-center"
-                                                        style="width: 40px; height: 40px;">
-                                                        <i class="fas fa-image text-muted"></i>
-                                                    </div>
-                                                @endif
+                                            <img class="product-image" style="width: 50px; height: 50px; object-fit: cover; border-radius: 6px;" src="{{ asset('storage/products/' . $product->fileName) }}" alt="{{ $product->proname }}" />
+
                                                 <div>
                                                     <div class="fw-bold">{{ $product->name }}</div>
                                                     <small

@@ -5,14 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Throwable;
 
 class CategoryController extends Controller
 {
     public function index(Request $request)
     {
-        $list = Category::with(['products'])
+        $list = Category::with('products')
             ->orderByRaw("CASE WHEN LOWER(TRIM(catename)) = 'tất cả danh mục' THEN 1 ELSE 0 END, catename ASC")
             ->paginate(6);
 
@@ -31,7 +30,7 @@ class CategoryController extends Controller
     {
         $request->validate(
             [
-                'catename' => 'required|min:3|max:100|unique:categories,catename'
+                'catename' => 'required|min:3|max:100|unique:categories,catename',
             ],
             [
                 'catename.required' => ':attribute không được để trống',
@@ -40,18 +39,12 @@ class CategoryController extends Controller
                 'catename.unique' => ':attribute đã tồn tại trong hệ thống',
             ],
             [
-                'catename' => 'Tên loại sản phẩm/danh mục'
+                'catename' => 'Tên loại sản phẩm/danh mục',
             ]
         );
 
-        $message = null;
         try {
-            Category::create(
-                [
-                    'catename' => $request->catename,
-                    'description' => $request->description,
-                ]
-            );
+            Category::create($request->only(['catename', 'description']));
             $message = 'Thêm thành công';
         } catch (Throwable $th) {
             $message = 'Thêm thất bại - Lỗi: ' . $th->getMessage();
@@ -60,18 +53,16 @@ class CategoryController extends Controller
         return redirect()->route('cate.create')->withInput()->with('message', $message);
     }
 
-    public function edit($id)
+    public function edit(Category $category)
     {
-        $category = Category::where('cateid', $id)->first();
         return view('admin.categories.edit', compact('category'));
     }
 
-    public function update($id, Request $request)
+    public function update(Request $request, Category $category)
     {
-        $id = $request->route('id');
         $request->validate(
             [
-                'catename' => 'required|min:3|max:100|unique:categories,catename,' . $id . ',cateid',
+                'catename' => 'required|min:3|max:100|unique:categories,catename,' . $category->cateid . ',cateid',
             ],
             [
                 'catename.required' => ':attribute không được để trống',
@@ -80,33 +71,25 @@ class CategoryController extends Controller
                 'catename.unique' => ':attribute đã tồn tại trong hệ thống',
             ],
             [
-                'catename' => 'Tên loại sản phẩm/danh mục'
+                'catename' => 'Tên loại sản phẩm/danh mục',
             ]
         );
 
-        $message = null;
         try {
-            $rowaffect = Category::where('cateid', $id)
-                ->update(
-                    [
-                        'catename' => $request->catename,
-                        'description' => $request->description,
-                    ]
-                );
-            $message = $rowaffect > 0 ? 'Cập nhật thành công' : 'Không có bản ghi nào được cập nhật';
+            $category->update($request->only(['catename', 'description']));
+            $message = 'Cập nhật thành công';
         } catch (Throwable $th) {
             $message = 'Cập nhật thất bại - Lỗi: ' . $th->getMessage();
         }
 
-        return redirect()->route('cate.edit', $id)->withInput()->with('message', $message);
+        return redirect()->route('cate.edit', $category->cateid)->withInput()->with('message', $message);
     }
 
-    public function delete($id)
+    public function delete(Category $category)
     {
-        $message = null;
         try {
-            $rowaffect = Category::where('cateid', $id)->delete();
-            $message = $rowaffect > 0 ? 'Xóa thành công' : 'Không có bản ghi nào được xóa';
+            $category->delete();
+            $message = 'Xóa thành công';
         } catch (Throwable $th) {
             $message = 'Xóa thất bại - Lỗi: ' . $th->getMessage();
         }

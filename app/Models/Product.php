@@ -6,27 +6,30 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    protected $fillable =
-    [
+    protected $table = 'products';
+
+    protected $fillable = [
         'proname',
-        'catename',
         'price',
         'brandid',
         'cateid',
         'description',
-        'fileName'
+        'fileName',
+        'stock_quantity', // 👈 Thêm dòng này
     ];
 
     public function category()
     {
-        return $this->belongsTo(Category::class, 'cateid', 'cateid')
-            ->select(['cateid', 'catename']);
+        return $this->belongsTo(Category::class, 'cateid', 'cateid');
     }
 
     public function brand()
     {
-        return $this->belongsTo(Brand::class, 'brandid', 'id')
-            ->select(['id', 'brandname']);
+        return $this->belongsTo(Brand::class, 'brandid', 'id');
     }
 
+    public function getFileNameAttribute($value)
+    {
+        return $value;
+    }
 }

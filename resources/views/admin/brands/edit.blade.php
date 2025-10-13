@@ -1,34 +1,181 @@
 @extends('layout.admin')
 
-@section('title', 'Thương hiệu - Cập nhật')
+@section('title', 'Cập nhật Thương hiệu')
 
 @section('content')
-    <div class="container mt-5">
-        <h3>Cập nhật thương hiệu</h3>
+    <div class="container-fluid py-4">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="h4 mb-1 fw-bold text-dark">Cập nhật Thương hiệu</h2>
+                <p class="text-muted mb-0">Chỉnh sửa thông tin thương hiệu "{{ $brand->brandname }}"</p>
+            </div>
+            <a href="{{ route('brand.index') }}" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Quay lại
+            </a>
+        </div>
+
+        <!-- Alert -->
         <x-alert></x-alert>
-        <div class="card shadow-sm mt-3" style="max-width: 500px;">
-            <div class="card-body">
-                <form method="POST" action="{{ route('brand.update', $brand->id) }}">
-                    @csrf
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            @foreach ($errors->all() as $item)
-                                {{ $item }} <br>
-                            @endforeach
-                        </div>
-                    @endif
-                    <div class="mb-3">
-                        <label for="f-brandname" class="form-label">Tên thương hiệu</label>
-                        <input type="text" name="brandname" class="form-control m-2" id="f-brandname"
-                            value="{{ old('brandname', $brand->brandname) }}">
-                        <textarea name="description" id="f-des" class="form-control m-2">{{ old('description', $brand->description) }}</textarea>
+
+        <!-- Card Form -->
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-edit text-primary me-2"></i>Thông tin thương hiệu
+                        </h5>
                     </div>
-                    <div class="d-flex gap-2">
-                        <a href="{{ route('brand.index') }}" class="btn btn-success">←</a>
-                        <button type="submit" class="btn btn-primary">Cập nhật</button>
+                    <div class="card-body p-4">
+                        <!-- Validation Errors -->
+                        @if ($errors->any())
+                            <div class="alert alert-danger border-0">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                    <h6 class="mb-0">Vui lòng kiểm tra lại thông tin đã nhập</h6>
+                                </div>
+                                <ul class="mt-2 mb-0 ps-3">
+                                    @foreach ($errors->all() as $item)
+                                        <li>{{ $item }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
+                        <!-- Form -->
+                        <form method="POST" action="{{ route('brand.update', $brand->id) }}">
+                            @csrf
+
+                            <div class="mb-4">
+                                <label for="f-brandname" class="form-label fw-semibold">
+                                    Tên thương hiệu <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" name="brandname"
+                                    class="form-control @error('brandname') is-invalid @enderror" id="f-brandname"
+                                    placeholder="Nhập tên thương hiệu" value="{{ old('brandname', $brand->brandname) }}"
+                                    maxlength="100">
+                                @error('brandname')
+                                    <div class="invalid-feedback d-block">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                                <div class="text-muted small mt-1">
+                                    <span id="brandname-count">{{ strlen(old('brandname', $brand->brandname)) }}</span>/100
+                                    ký tự
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="f-des" class="form-label fw-semibold">Mô tả</label>
+                                <textarea name="description" id="f-des" class="form-control @error('description') is-invalid @enderror"
+                                    rows="4" placeholder="Nhập mô tả về thương hiệu" maxlength="500">{{ old('description', $brand->description) }}</textarea>
+                                @error('description')
+                                    <div class="invalid-feedback d-block">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                                <div class="text-muted small mt-1">
+                                    <span
+                                        id="description-count">{{ strlen(old('description', $brand->description)) }}</span>/500
+                                    ký tự
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+                                <a href="{{ route('brand.index') }}" class="btn btn-outline-secondary">
+                                    <i class="fas fa-times me-2"></i> Hủy bỏ
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save me-2"></i> Cập nhật
+                                </button>
+                            </div>
+                        </form>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
 @endsection
+
+@section('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const brandnameInput = document.getElementById('f-brandname');
+            const descriptionInput = document.getElementById('f-des');
+            const brandnameCount = document.getElementById('brandname-count');
+            const descriptionCount = document.getElementById('description-count');
+
+            // Cập nhật số ký tự ban đầu
+            brandnameCount.textContent = brandnameInput.value.length;
+            descriptionCount.textContent = descriptionInput.value.length;
+
+            // Theo dõi sự thay đổi của trường tên thương hiệu
+            brandnameInput.addEventListener('input', function() {
+                brandnameCount.textContent = this.value.length;
+            });
+
+            // Theo dõi sự thay đổi của trường mô tả
+            descriptionInput.addEventListener('input', function() {
+                descriptionCount.textContent = this.value.length;
+            });
+
+            // Tự động focus vào trường đầu tiên
+            if (brandnameInput.value === '') {
+                brandnameInput.focus();
+            }
+        });
+    </script>
+@endsection
+
+<style>
+    .card {
+        border: none;
+        border-radius: 12px;
+    }
+
+    .card-header {
+        border-bottom: 1px solid #eaeaea;
+        border-radius: 12px 12px 0 0 !important;
+    }
+
+    .form-control {
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        border: 1px solid #ced4da;
+        transition: all 0.2s;
+    }
+
+    .form-control:focus {
+        border-color: #86b7fe;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+    }
+
+    .btn {
+        border-radius: 8px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 500;
+        transition: all 0.2s;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-outline-secondary:hover {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        color: white;
+    }
+
+    .alert {
+        border-radius: 8px;
+        border: none;
+    }
+</style>

@@ -8,6 +8,8 @@
 
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -30,37 +32,57 @@
                                 <i class="fas fa-tachometer-alt me-2"></i>Dashboard
                             </a>
                         </li>
+
                         <li class="nav-item">
                             <a class="nav-link text-white {{ request()->routeIs('ad.pro.*') ? 'active bg-primary' : '' }}"
                                 href="{{ route('ad.pro.index') }}">
                                 <i class="fas fa-box me-2"></i>Sản phẩm
                             </a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link text-white {{ request()->routeIs('brand.index') ? 'active bg-primary' : '' }}"
-                                href="{{ route('brand.index') }}">
+                            <a class="nav-link text-white {{ request()->routeIs('ad.brand.*') ? 'active bg-primary' : '' }}"
+                                href="{{ route('ad.brand.index') }}">
                                 <i class="fas fa-tags me-2"></i>Thương hiệu
                             </a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link text-white {{ request()->routeIs('cate.index') ? 'active bg-primary' : '' }}"
-                                href="{{ route('cate.index') }}">
+                            <a class="nav-link text-white {{ request()->routeIs('ad.cate.*') ? 'active bg-primary' : '' }}"
+                                href="{{ route('ad.cate.index') }}">
                                 <i class="fas fa-list me-2"></i>Danh mục
                             </a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link text-white {{ request()->routeIs('ad.customers.index') ? 'active bg-primary' : '' }}"
+                            <a class="nav-link text-white {{ request()->routeIs('ad.customers.*') ? 'active bg-primary' : '' }}"
                                 href="{{ route('ad.customers.index') }}">
-                                <i class="fas fa-users me-2"></i>Khách hàng
+                                <i class="fas fa-users me-2"></i>Quản lý khách hàng
                             </a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link text-white {{ request()->routeIs('ad.orders.index') ? 'active bg-primary' : '' }}"
+                            <a class="nav-link text-white {{ request()->routeIs('ad.orders.*') ? 'active bg-primary' : '' }}"
                                 href="{{ route('ad.orders.index') }}">
                                 <i class="fas fa-shopping-cart me-2"></i>Đơn hàng
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white {{ request()->routeIs('ad.users.*') ? 'active bg-primary' : '' }}"
+                                href="{{ route('ad.users.index') }}">
+                                <i class="fas fa-users me-2"></i>Quản lý user
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white {{ request()->routeIs('ad.inventory*') ? 'active bg-primary' : '' }}"
+                                href="{{ route('ad.inventory') }}">
+                                <i class="fas fa-boxes me-2"></i> Quản lý tồn kho
+                            </a>
+                        </li>
+
+
                     </ul>
+
                 </div>
             </nav>
 
@@ -92,7 +114,8 @@
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <li>
-                                            <a class="dropdown-item" href="{{ route('ad.changepass.form') }}">
+                                            <a class="dropdown-item" href="{{ url('/admin/change-password') }}">
+                                                <!-- Sửa thành URL tạm -->
                                                 <i class="fas fa-key me-2"></i>Đổi mật khẩu
                                             </a>
                                         </li>
