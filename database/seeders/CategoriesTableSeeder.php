@@ -15,10 +15,9 @@ class CategoriesTableSeeder extends Seeder
     {
         for ($i = 1; $i <= 10; $i++) {
             DB::table('categories')->insert([
-                'cateid' => $i,
+                // Đã xóa 'cateid' => $i, để MySQL tự động gán ID
                 'catename' => "Danh mục $i",
                 'description' => "Mô tả $i"
-
             ]);
         }
     }
