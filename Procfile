@@ -1,1 +1,1 @@
-web: bash -c "mkdir -p storage/framework/{sessions,views,cache} bootstrap/cache && php artisan storage:link && chmod -R 775 storage/framework bootstrap/cache && php artisan serve --host=0.0.0.0 --port=8080"
+web: vendor/bin/heroku-php-apache2 public/
