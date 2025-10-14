@@ -21,8 +21,15 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+
 # Allow framework cache folders to be tracked
 !storage/framework/
 !storage/framework/cache/
 !storage/framework/sessions/
 !storage/framework/views/
+
+# ✅ Allow public assets to be deployed
+!public/css/
+!public/js/
+!public/images/
+!public/storage/
