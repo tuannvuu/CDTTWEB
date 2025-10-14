@@ -1,0 +1,243 @@
+
+:root {
+    --primary: #4361ee;
+    --success: #4cc9f0;
+    --info: #3a0ca3;
+    --warning: #f72585;
+    --light: #f8f9fa;
+    --dark: #212529;
+    --gray: #6c757d;
+}
+
+.card-stat {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card-stat:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-stat-1 {
+    background: linear-gradient(135deg, #4361ee, #3a0ca3);
+    color: white;
+}
+
+.card-stat-2 {
+    background: linear-gradient(135deg, #4cc9f0, #4895ef);
+    color: white;
+}
+
+.card-stat-3 {
+    background: linear-gradient(135deg, #f72585, #b5179e);
+    color: white;
+}
+
+.card-stat-4 {
+    background: linear-gradient(135deg, #7209b7, #560bad);
+    color: white;
+}
+
+.stat-icon {
+    font-size: 2.5rem;
+    opacity: 0.8;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.table-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.table thead {
+    background: linear-gradient(135deg, #4361ee, #3a0ca3);
+    color: white;
+}
+
+.table thead th {
+    border: none;
+    padding: 15px 12px;
+    font-weight: 600;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.table tbody tr {
+    transition: background-color 0.2s;
+}
+
+.table tbody tr:hover {
+    background-color: rgba(67, 97, 238, 0.05);
+}
+
+.table tbody td {
+    padding: 12px;
+    vertical-align: middle;
+    border-color: #f0f0f0;
+    text-align: center;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #4361ee, #3a0ca3);
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-weight: 500;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #4cc9f0, #4895ef);
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-weight: 500;
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, #f8961e, #f3722c);
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-weight: 500;
+    color: white;
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #f72585, #b5179e);
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-weight: 500;
+}
+
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+.pagination .page-link {
+    color: var(--primary);
+    border: 1px solid #dee2e6;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+.alert {
+    border-radius: 8px;
+    border: none;
+}
+
+h3 {
+    color: #2d3748;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #6c757d;
+}
+
+.empty-state i {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    color: #dee2e6;
+}
+
+.product-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.per-page-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.per-page-selector label {
+    margin-bottom: 0;
+    font-weight: 500;
+    color: #495057;
+}
+
+.header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.product-name {
+    font-weight: 600;
+    color: #2d3748;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.category-badge,
+.brand-badge {
+    background: rgba(67, 97, 238, 0.1);
+    color: #4361ee;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.price {
+    font-weight: 700;
+    color: #e53e3e;
+}
+
+@media (max-width: 768px) {
+    .header-actions {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .per-page-selector {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .table-responsive {
+        font-size: 0.85rem;
+    }
+}
