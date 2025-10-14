@@ -1,6 +1,0 @@
-[build]
-# Railway tự nhận dạng PHP, không cần chỉ rõ buildpack
-buildCommand = "composer install --no-dev --optimize-autoloader"
-
-[deploy]
-startCommand = "bash -c \"php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT\""
