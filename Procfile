@@ -1,2 +1,1 @@
-web: bash -c "mkdir -p storage/framework/{sessions,views,cache} bootstrap/cache && php -S 0.0.0.0:8080 -t public"
-post-deploy: mkdir -p storage/framework/{sessions,views,cache} bootstrap/cache && chmod -R 775 storage/framework bootstrap/cache
+web: bash -c "mkdir -p storage/framework/{sessions,views,cache} bootstrap/cache && php artisan storage:link && chmod -R 775 storage/framework bootstrap/cache && php artisan serve --host=0.0.0.0 --port=8080"
