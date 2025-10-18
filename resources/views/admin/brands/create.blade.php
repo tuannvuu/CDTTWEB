@@ -17,7 +17,7 @@
         <!-- Header với nút quay lại -->
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
-                <a href="{{ route('brand.index') }}" class="back-btn">
+                <a href="{{ route('ad.brand.index') }}" class="back-btn">
                     <i class="fas fa-arrow-left me-2"></i> Quay lại danh sách
                 </a>
             </div>
@@ -57,7 +57,7 @@
                         @endif
 
                         <!-- Form -->
-                        <form method="POST" action="{{ route('brand.store') }}">
+                        <form method="POST" action="{{ route('ad.brand.store') }}">
                             @csrf
 
                             <div class="form-group">
@@ -92,7 +92,7 @@
                             </div>
 
                             <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
-                                <a href="{{ route('brand.index') }}" class="btn btn-outline-secondary">
+                                <a href="{{ route('ad.brand.index') }}" class="btn btn-outline-secondary">
                                     <i class="fas fa-arrow-left me-2"></i> Quay lại
                                 </a>
                                 <button type="submit" class="btn btn-primary">

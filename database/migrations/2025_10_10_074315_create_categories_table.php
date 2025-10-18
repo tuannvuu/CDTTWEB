@@ -11,19 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
-            // Khóa chính (Primary Key) và Khóa ngoại (Foreign Key)
-            // Đảm bảo tên cột là 'cateid' nếu bảng products đang tham chiếu tên này.
-            $table->id('cateid');
-
-            // Cột catename (mà migration thêm cột 'image' tham chiếu)
-            $table->string('catename', 100);
-
-            // Thêm các cột khác nếu bảng categories của bạn có.
-
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('categories')) {
+            Schema::create('categories', function (Blueprint $table) {
+                $table->id('cateid');
+                $table->string('catename', 100);
+                $table->timestamps();
+            });
+        }
     }
+
 
     /**
      * Reverse the migrations.

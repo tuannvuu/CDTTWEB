@@ -50,40 +50,49 @@ class CategoryController extends Controller
             $message = 'Thêm thất bại - Lỗi: ' . $th->getMessage();
         }
 
-        return redirect()->route('cate.create')->withInput()->with('message', $message);
+        return redirect()->route('ad.cate.create')->withInput()->with('message', $message);
     }
 
-    public function edit(Category $category)
-    {
-        return view('admin.categories.edit', compact('category'));
+    public function edit($id)
+{
+    $category = Category::findOrFail($id);
+    return view('admin.categories.edit', compact('category'));
+}
+
+
+public function update(Request $request, Category $category)
+{
+    $request->validate(
+        [
+            'catename' => 'required|min:3|max:100|unique:categories,catename,' . $category->cateid . ',cateid',
+        ],
+        [
+            'catename.required' => ':attribute không được để trống',
+            'catename.min' => ':attribute có ít nhất :min ký tự',
+            'catename.max' => ':attribute không vượt quá :max ký tự',
+            'catename.unique' => ':attribute đã tồn tại trong hệ thống',
+        ],
+        [
+            'catename' => 'Tên loại sản phẩm/danh mục',
+        ]
+    );
+
+    try {
+        $category->update($request->only(['catename', 'description']));
+    } catch (\Throwable $th) {
+        return back()->with('error', 'Cập nhật thất bại - ' . $th->getMessage());
     }
 
-    public function update(Request $request, Category $category)
-    {
-        $request->validate(
-            [
-                'catename' => 'required|min:3|max:100|unique:categories,catename,' . $category->cateid . ',cateid',
-            ],
-            [
-                'catename.required' => ':attribute không được để trống',
-                'catename.min' => ':attribute có ít nhất :min ký tự',
-                'catename.max' => ':attribute không vượt quá :max ký tự',
-                'catename.unique' => ':attribute đã tồn tại trong hệ thống',
-            ],
-            [
-                'catename' => 'Tên loại sản phẩm/danh mục',
-            ]
-        );
+    // ✅ Đây là dòng quan trọng — phải dùng đúng 'id' => $category->cateid
+ return redirect()->route('ad.cate.edit', $category)
+    ->with('success', 'Cập nhật danh mục thành công!');
 
-        try {
-            $category->update($request->only(['catename', 'description']));
-            $message = 'Cập nhật thành công';
-        } catch (Throwable $th) {
-            $message = 'Cập nhật thất bại - Lỗi: ' . $th->getMessage();
-        }
+}
 
-        return redirect()->route('cate.edit', $category->cateid)->withInput()->with('message', $message);
-    }
+
+
+
+
 
     public function delete(Category $category)
     {
@@ -94,6 +103,6 @@ class CategoryController extends Controller
             $message = 'Xóa thất bại - Lỗi: ' . $th->getMessage();
         }
 
-        return redirect()->route('cate.index')->with('message', $message);
+        return redirect()->route('ad.cate.index')->with('message', $message);
     }
 }

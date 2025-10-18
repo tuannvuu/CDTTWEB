@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>FUTURE NET - CREATE ACCOUNT</title>
+    <title>FUTURE NET - TẠO TÀI KHOẢN</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="{{ asset('css/create.users.css') }}" rel="stylesheet" />
@@ -17,7 +17,7 @@
         <div class="scan-line"></div>
         <div class="register-header">
             <div class="logo">FUTURE NET</div>
-            <p class="tagline">CREATE ACCOUNT</p>
+            <p class="tagline">TẠO TÀI KHOẢN</p>
         </div>
 
         <div class="register-body">
@@ -32,11 +32,11 @@
             <form action="{{ route('ad.store') }}" method="POST">
                 @csrf
                 <div class="mb-3">
-                    <label for="fullname" class="form-label">FULL NAME</label>
+                    <label for="fullname" class="form-label">HỌ VÀ TÊN</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-user"></i></span>
                         <input type="text" class="form-control" id="fullname" name="fullname"
-                            value="{{ old('fullname') }}" placeholder="ENTER FULL NAME">
+                            value="{{ old('fullname') }}" placeholder="NHẬP HỌ VÀ TÊN">
                     </div>
                     @error('fullname')
                         <div class="text-danger mt-1"
@@ -46,11 +46,11 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="username" class="form-label">USERNAME</label>
+                    <label for="username" class="form-label">TÊN ĐĂNG NHẬP</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-at"></i></span>
                         <input type="text" class="form-control" id="username" name="username"
-                            value="{{ old('username') }}" placeholder="ENTER USERNAME">
+                            value="{{ old('username') }}" placeholder="NHẬP TÊN ĐĂNG NHẬP">
                     </div>
                     @error('username')
                         <div class="text-danger mt-1"
@@ -60,11 +60,11 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="email" class="form-label">EMAIL ADDRESS</label>
+                    <label for="email" class="form-label">ĐỊA CHỈ EMAIL</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                         <input type="email" class="form-control" id="email" name="email"
-                            value="{{ old('email') }}" placeholder="ENTER EMAIL ADDRESS">
+                            value="{{ old('email') }}" placeholder="NHẬP ĐỊA CHỈ EMAIL">
                     </div>
                     @error('email')
                         <div class="text-danger mt-1"
@@ -74,11 +74,11 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="password" class="form-label">ACCESS CODE</label>
+                    <label for="password" class="form-label">MẬT KHẨU</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-key"></i></span>
                         <input type="password" class="form-control" id="password" name="password"
-                            placeholder="ENTER ACCESS CODE">
+                            placeholder="NHẬP MẬT KHẨU">
                         <button class="btn btn-outline-secondary" type="button" id="togglePassword"
                             style="border-color: rgba(10, 100, 255, 0.5); color: var(--neon-blue);">
                             <i class="fas fa-eye"></i>
@@ -92,11 +92,11 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="password_confirmation" class="form-label">CONFIRM ACCESS CODE</label>
+                    <label for="password_confirmation" class="form-label">XÁC NHẬN MẬT KHẨU</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-key"></i></span>
                         <input type="password" class="form-control" id="password_confirmation"
-                            name="password_confirmation" placeholder="CONFIRM ACCESS CODE">
+                            name="password_confirmation" placeholder="XÁC NHẬN MÃ TRUY CẬP">
                         <button class="btn btn-outline-secondary" type="button" id="togglePasswordConfirmation"
                             style="border-color: rgba(10, 100, 255, 0.5); color: var(--neon-blue);">
                             <i class="fas fa-eye"></i>
@@ -105,10 +105,10 @@
                 </div>
 
                 <div class="mb-4">
-                    <label for="role" class="form-label">USER ROLE</label>
+                    <label for="role" class="form-label">PHÂN QUYỀN NGƯỜI DÙNG</label>
                     <select class="form-select" id="role" name="role">
-                        <option value="1" {{ old('role') == '1' ? 'selected' : '' }}>ADMINISTRATOR</option>
-                        <option value="3" {{ old('role') == '3' ? 'selected' : '' }}>CLIENT</option>
+                        <option value="1" {{ old('role') == '1' ? 'selected' : '' }}>QUẢN TRỊ VIÊN</option>
+                        <option value="3" {{ old('role') == '3' ? 'selected' : '' }}>KHÁCH HÀNG</option>
                     </select>
                     @error('role')
                         <div class="text-danger mt-1"
@@ -118,20 +118,20 @@
                 </div>
 
                 <button type="submit" class="btn btn-register" id="registerBtn">
-                    <span id="btnText">CREATE ACCOUNT</span>
+                    <span id="btnText">TẠO TÀI KHOẢN</span>
                     <span id="btnSpinner" class="spinner-border spinner-border-sm d-none"></span>
                 </button>
             </form>
 
             <div class="register-footer">
-                <a href="{{ route('ad.login') }}">ALREADY HAVE AN ACCOUNT? LOGIN</a>
+                <a href="{{ route('ad.login') }}">ĐÃ CÓ TÀI KHOẢN? ĐĂNG NHẬP</a>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Tạo hiệu ứng particles
+        // Tạo hiệu ứng hạt bay (particles)
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
             const particleCount = 30;
@@ -158,7 +158,7 @@
             }
         }
 
-        // Hiển thị/ẩn mật khẩu
+        // Hiển thị / ẩn mật khẩu
         document.getElementById('togglePassword').addEventListener('click', function() {
             const passwordInput = document.getElementById('password');
             const icon = this.querySelector('i');
@@ -174,7 +174,7 @@
             }
         });
 
-        // Hiển thị/ẩn xác nhận mật khẩu
+        // Hiển thị / ẩn xác nhận mật khẩu
         document.getElementById('togglePasswordConfirmation').addEventListener('click', function() {
             const passwordInput = document.getElementById('password_confirmation');
             const icon = this.querySelector('i');
@@ -190,14 +190,14 @@
             }
         });
 
-        // Xử lý hiển thị spinner khi submit form
+        // Hiển thị spinner khi gửi form
         document.querySelector('form').addEventListener('submit', function() {
             document.getElementById('btnText').classList.add('d-none');
             document.getElementById('btnSpinner').classList.remove('d-none');
             document.getElementById('registerBtn').disabled = true;
         });
 
-        // Khởi tạo particles khi trang tải xong
+        // Khởi tạo hiệu ứng khi tải trang
         document.addEventListener('DOMContentLoaded', createParticles);
     </script>
 </body>

@@ -1,4 +1,4 @@
-@extends('layout.client')
+@extends('layout.productdetails')
 
 @section('content')
     <div class="container py-5">

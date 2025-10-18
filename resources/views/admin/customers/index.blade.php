@@ -134,7 +134,7 @@
                             <th>Liên hệ</th>
                             <th width="120" class="text-center">Số đơn hàng</th>
                             <th width="150" class="text-center">Trạng thái</th>
-                            <th width="120" class="text-center">Thao tác</th>
+                           
                         </tr>
                     </thead>
                     <tbody>
@@ -185,23 +185,7 @@
                                         </span>
                                     @endif
                                 </td>
-                                <td>
-                                    <div class="d-flex justify-content-center gap-1">
-                                        <button class="btn btn-sm btn-outline-primary view-details"
-                                            data-customer-id="{{ $customer->id }}" title="Xem chi tiết">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-warning"
-                                            onclick="editCustomer({{ $customer->id }})" title="Sửa thông tin">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-danger"
-                                            onclick="confirmDelete({{ $customer->id }}, '{{ $customer->fullname }}')"
-                                            title="Xóa khách hàng">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
+                               
                             </tr>
                         @empty
                             <tr>
@@ -262,190 +246,7 @@
 @endsection
 
 @section('styles')
-    <style>
-        :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            --hover-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-        }
-
-        .page-header {
-            background: var(--primary-gradient);
-            padding: 2.5rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .page-header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 100%;
-            height: 200%;
-            background: rgba(255, 255, 255, 0.1);
-            transform: rotate(45deg);
-        }
-
-        .stats-card {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-            box-shadow: var(--card-shadow);
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
-
-        .stats-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--hover-shadow);
-        }
-
-        .stats-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .table-container {
-            background: white;
-            border-radius: 15px;
-            box-shadow: var(--card-shadow);
-            overflow: hidden;
-        }
-
-        .table-header {
-            background: var(--primary-gradient);
-            color: white;
-            padding: 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .table-header h3 {
-            margin: 0;
-        }
-
-        .avatar {
-            font-weight: 600;
-        }
-
-        .customer-row:hover {
-            background-color: #f8f9ff;
-            transform: translateX(5px);
-            transition: all 0.3s ease;
-        }
-
-        .badge.rounded-pill {
-            padding: 0.5rem 1rem;
-            font-size: 0.9rem;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 3rem;
-            color: #6c757d;
-        }
-
-        .empty-state i {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            opacity: 0.5;
-        }
-
-        .contact-info i {
-            width: 16px;
-        }
-
-        .btn-sm {
-            padding: 0.25rem 0.5rem;
-            border-radius: 8px;
-        }
-
-        .dropdown-menu-end {
-            right: 0;
-            left: auto;
-        }
-
-        /* Print styles */
-        @media print {
-
-            .page-header,
-            .stats-card,
-            .card,
-            .btn-group,
-            .pagination,
-            .table-header .badge,
-            .action-buttons,
-            .dropdown-menu {
-                display: none !important;
-            }
-
-            .table-container {
-                box-shadow: none !important;
-                border: 1px solid #ddd !important;
-                margin: 0 !important;
-            }
-
-            .table thead th {
-                background: #f8f9fa !important;
-                color: #000 !important;
-                border: 1px solid #ddd !important;
-                padding: 8px !important;
-            }
-
-            .table td {
-                padding: 8px !important;
-                border: 1px solid #ddd !important;
-            }
-
-            body {
-                background: white !important;
-                font-size: 12px !important;
-                padding: 20px !important;
-            }
-
-            .container-fluid {
-                padding: 0 !important;
-                margin: 0 !important;
-                max-width: 100% !important;
-            }
-
-            .avatar,
-            .fa-icon {
-                display: none !important;
-            }
-        }
-
-        /* Export table styles */
-        .export-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-family: Arial, sans-serif;
-            font-size: 12px;
-        }
-
-        .export-table th {
-            background-color: #2c3e50;
-            color: white;
-            padding: 10px;
-            border: 1px solid #34495e;
-            text-align: left;
-            font-weight: bold;
-        }
-
-        .export-table td {
-            padding: 8px;
-            border: 1px solid #ddd;
-        }
-
-        .export-table tr:nth-child(even) {
-            background-color: #f8f9fa;
-        }
-    </style>
+<link rel="stylesheet" href="{{ asset('css/customer.css') }}">
 @endsection
 
 @section('scripts')

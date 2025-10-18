@@ -114,13 +114,20 @@
                                     <td>
                                         <span class="price">{{ number_format($item->price, 0, ',', '.') }} ₫</span>
                                     </td>
-                                    <td>
-       <img class="card-img-top"
-     src="{{ asset('storage/products/' . $item->fileName) }}"
-     alt="{{ $item->proname }}"
-     style="max-height:300px; object-fit:contain;" />
+       <td>
+   @php
+    $imagePath = $item->fileName;
+    if ($imagePath && !Str::startsWith($imagePath, 'products/')) {
+        $imagePath = 'products/' . $imagePath;
+    }
+@endphp
 
-                                    </td>
+<img src="{{ asset('storage/' . $imagePath) }}"
+     alt="{{ $item->proname }}"
+     style="max-height:100px; object-fit:contain;">
+
+</td>
+
 
 
 
@@ -129,13 +136,15 @@
                                             <a href="{{ route('ad.pro.edit', $item->id) }}" class="btn btn-sm btn-warning">
                                                 <i class="fas fa-edit me-1"></i>Sửa
                                             </a>
-                                            <form action="{{ route('ad.pro.delete', $item->id) }}" method="POST"
-                                                onsubmit="return confirm('Bạn có chắc muốn xóa sản phẩm này?');">
-                                                @csrf
-                                                <button type="submit" class="btn btn-sm btn-danger">
-                                                    <i class="fas fa-trash me-1"></i>Xóa
-                                                </button>
-                                            </form>
+                                          <form action="{{ route('ad.pro.delete', $item->id) }}" method="POST"
+    onsubmit="return confirm('Bạn có chắc muốn xóa sản phẩm này?');">
+    @csrf
+    @method('DELETE')
+    <button type="submit" class="btn btn-sm btn-danger">
+        <i class="fas fa-trash me-1"></i>Xóa
+    </button>
+</form>
+
                                         </div>
                                     </td>
                                 </tr>
@@ -157,7 +166,7 @@
                     <i class="fas fa-box-open"></i>
                     <h3>Chưa có sản phẩm nào</h3>
                     <p class="mb-4">Hãy thêm sản phẩm đầu tiên để bắt đầu quản lý</p>
-                    <a href="{{ route('pro.create') }}" class="btn btn-success">
+                    <a href="{{ route('ad.pro.create') }}" class="btn btn-success">
                         <i class="fas fa-plus me-2"></i>Thêm sản phẩm
                     </a>
                 </div>

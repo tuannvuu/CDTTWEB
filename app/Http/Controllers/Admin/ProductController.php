@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
@@ -31,33 +32,71 @@ class ProductController extends Controller
         return view('admin.products.create', compact('categories', 'brands'));
     }
 
- public function store(ProductRequest $request)
+public function store(Request $request)
 {
-    $fileName = null;
+    $request->validate([
+        'proname' => 'required|string|max:255',
+        'price' => 'required|numeric|min:0',
+        'brandid' => 'required|integer',
+        'cateid' => 'required|integer',
+        'description' => 'nullable|string',
+        'fileName' => 'required|image|mimes:jpg,png,jpeg,gif|max:5120',
+    ]);
+
+    $file = $request->file('fileName');
+    $fileName = Str::slug($request->proname) . '-' . time() . '.' . $file->getClientOriginalExtension();
+    $file->storeAs('products', $fileName, 'public');
+
+    $product = new Product();
+    $product->proname = $request->proname;
+    $product->price = $request->price;
+    $product->brandid = $request->brandid;
+    $product->cateid = $request->cateid;
+    $product->description = $request->description;
+    $product->fileName = 'products/' . $fileName; // ✅ Lưu đúng đường dẫn
+    $product->save();
+
+    return redirect()->route('ad.pro.index')->with('success', 'Thêm sản phẩm thành công!');
+}
+
+public function update(Request $request, $id)
+{
+    $product = Product::findOrFail($id);
+
+    $request->validate([
+        'proname' => 'required|string|max:255',
+        'price' => 'required|numeric|min:0',
+        'brandid' => 'required|integer',
+        'cateid' => 'required|integer',
+        'description' => 'nullable|string',
+        'fileName' => 'nullable|image|mimes:jpg,png,jpeg,gif|max:5120',
+    ]);
+
+    $filePath = $product->fileName; // Giữ ảnh cũ
 
     if ($request->hasFile('fileName')) {
+        // Xóa ảnh cũ nếu tồn tại
+        if ($filePath && Storage::disk('public')->exists($filePath)) {
+            Storage::disk('public')->delete($filePath);
+        }
+
         $file = $request->file('fileName');
         $fileName = Str::slug($request->proname) . '-' . time() . '.' . $file->getClientOriginalExtension();
         $file->storeAs('products', $fileName, 'public');
+        $filePath = 'products/' . $fileName;
     }
 
-    try {
-        Product::create([
-            'proname' => $request->proname,
-            'price' => $request->price,
-            'cateid' => $request->cateid,
-            'brandid' => $request->brandid,
-            'description' => $request->description,
-            'fileName' => $fileName, // lưu tên file ảnh
-        ]);
-        $message = 'Thêm thành công';
-    } catch (Throwable $th) {
-        $message = 'Thêm thất bại - Lỗi: ' . $th->getMessage();
-    }
+    $product->update([
+        'proname' => $request->proname,
+        'price' => $request->price,
+        'cateid' => $request->cateid,
+        'brandid' => $request->brandid,
+        'description' => $request->description,
+        'fileName' => $filePath,
+    ]);
 
-    return redirect()->route('pro.create')->withInput()->with('message', $message);
+    return redirect()->route('ad.pro.edit', $id)->with('success', 'Cập nhật sản phẩm thành công!');
 }
-
 
 
     public function edit($id)
@@ -68,44 +107,7 @@ class ProductController extends Controller
 
         return view('admin.products.edit', compact('product', 'categories', 'brands'));
     }
-public function update(ProductRequest $request, $id)
-{
-    $product = Product::findOrFail($id);
-    $fileName = $product->fileName; // Mặc định giữ ảnh cũ nếu không upload ảnh mới
 
-    if ($request->hasFile('fileName')) { // Sửa tên ở đây thành 'fileName'
-        $file = $request->file('fileName');
-
-        // Nếu có ảnh cũ, xóa ảnh cũ đi
-        if ($fileName && Storage::disk('public')->exists('products/' . $fileName)) {
-            Storage::disk('public')->delete('products/' . $fileName);
-        }
-
-        // Tạo tên file mới
-        $fileName = Str::slug($request->proname) . '-' . time() . '.' . $file->getClientOriginalExtension();
-
-        // Lưu file vào storage/app/public/products
-        $file->storeAs('products', $fileName, 'public');
-    }
-
-    $message = null;
-    try {
-        $product->update([
-            'proname' => $request->proname,
-            'price' => $request->price,
-            'cateid' => $request->cateid,
-            'brandid' => $request->brandid,
-            'description' => $request->description,
-            'fileName' => $fileName, // Luôn cập nhật tên file, giữ ảnh cũ nếu không upload ảnh mới
-        ]);
-
-        $message = 'Cập nhật thành công';
-    } catch (Throwable $th) {
-        $message = 'Cập nhật thất bại - Lỗi: ' . $th->getMessage();
-    }
-
-    return redirect()->route('pro.edit', $id)->withInput()->with('message', $message);
-}
 
     public function delete($id)
     {
@@ -124,6 +126,6 @@ public function update(ProductRequest $request, $id)
             $message = 'Xóa thất bại - Lỗi: ' . $th->getMessage();
         }
 
-        return redirect()->route('pro.index')->with('message', $message);
+        return redirect()->route('ad.pro.index')->with('message', $message);
     }
 }

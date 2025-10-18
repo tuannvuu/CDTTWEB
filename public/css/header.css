@@ -123,83 +123,96 @@ body {
     color: white !important;
 }
 
-.custom-category-dropdown {
-    border-radius: 20px;
-    box-shadow: var(--shadow-medium);
-    border: none;
-    padding: 1rem;
-    margin-top: 0.5rem !important;
-    backdrop-filter: blur(20px);
-    background: rgba(255, 255, 255, 0.98);
-    border: 1px solid rgba(255, 255, 255, 0.8);
-    min-width: 300px;
-    animation: dropdownFadeIn 0.3s ease;
+/* ====================== NÚT DANH MỤC (CĂN GIỮA ICON) ====================== */
+.btn-menu-cate {
+    position: relative;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+    border: 1px solid #e5e7eb;
+    transition: all 0.2s ease;
+    padding: 0;
+}
+
+.btn-menu-cate:hover {
+    background-color: #f1f5f9;
+}
+
+/* Căn icon tuyệt đối giữa khung */
+.btn-menu-cate i {
     position: absolute;
-    top: 100%;
-    left: 0;
-    transform: translateX(0) !important;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* 👈 Đặt đúng giữa khung */
+    font-size: 1.4rem;
+    color: #333;
+    line-height: 1;
+}
+
+
+
+/* ====================== DROPDOWN (GIỮ FORM NHƯ CŨ) ====================== */
+.custom-category-dropdown {
+    border-radius: 12px;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e5e7eb;
+    padding: 0.5rem;
+    background: #fff;
+    min-width: 260px;
+    animation: dropdownFadeIn 0.25s ease;
+    transform-origin: top;
+    transition: all 0.25s ease;
+    margin-top: 0.5rem !important;
+    /* Cách nhẹ phía dưới nút */
 }
 
 @keyframes dropdownFadeIn {
     from {
         opacity: 0;
-        transform: translateY(-10px) scale(0.95);
+        transform: translateY(-8px);
     }
 
     to {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform: translateY(0);
     }
 }
 
-.category-icon {
-    width: 60px;
-    height: 60px;
-    object-fit: contain;
-    border-radius: 12px;
-    background: #f8fafc;
-    padding: 8px;
-    border: 2px solid #e5e7eb;
-    transition: all 0.3s ease;
-}
-
-.dropdown-item:hover .category-icon {
-    border-color: var(--primary-color);
-    transform: scale(1.05);
-    background: white;
-}
-
-.category-name {
-    font-weight: 600;
-    color: var(--dark-color);
-    transition: all 0.3s ease;
-    font-size: 1rem;
-}
-
+/* Item danh mục */
 .dropdown-item {
-    padding: 1rem 1.2rem;
-    border-radius: 12px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
-    margin-bottom: 0.5rem;
-    color: var(--dark-color);
-    border: 1px solid transparent;
-    gap: 1rem;
+    gap: 0.75rem;
+    padding: 0.8rem 1rem;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+    color: #333;
 }
 
 .dropdown-item:hover {
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.05));
-    transform: translateX(8px) translateY(-1px);
-    color: var(--primary-color);
-    border-color: rgba(59, 130, 246, 0.1);
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+    background: #f1f5f9;
+    transform: translateX(5px);
 }
 
-.dropdown-item:hover .category-name {
-    color: var(--primary-color);
-    font-weight: 700;
+/* Ảnh icon danh mục */
+.category-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    border-radius: 8px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
 }
+
+/* Tên danh mục */
+.category-name {
+    font-weight: 400;
+    color: #333;
+}
+
+
 
 /* ===================== NAVBAR ABOUT LINK FIX ===================== */
 .navbar-about-link {

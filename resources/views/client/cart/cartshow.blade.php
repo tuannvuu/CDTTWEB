@@ -33,6 +33,8 @@
                 <i class="fas fa-shopping-cart"></i>
                 Giỏ hàng của bạn
             </h1>
+      
+
 
             <div class="cart-container">
                 @if (count($cart) > 0)

@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    @extends('layout.client')
+    @extends('layout.productdetails')
 
     @section('content')
         <section class="product-section">
@@ -102,9 +102,10 @@
                                 <form action="{{ route('cartadd', $product->id) }}" method="POST" class="d-inline-flex">
                                     @csrf
                                     <input type="hidden" name="quantity" id="form-quantity" value="1">
-                                    <button type="submit" class="btn btn-cart">
-                                        <i class="fas fa-shopping-cart"></i> Thêm vào giỏ hàng
-                                    </button>
+                                    <button type="submit" class="btn btn-danger">
+    <i class="fas fa-shopping-cart"></i> Thêm vào giỏ hàng
+</button>
+
                                 </form>
 
                                 <button class="btn btn-wishlist">

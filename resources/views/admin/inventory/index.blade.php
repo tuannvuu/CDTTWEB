@@ -214,10 +214,7 @@
                                                 title="Chỉnh sửa">
                                                 <i class="bi bi-pencil"></i>
                                             </button>
-                                            <button type="button" class="btn btn-sm btn-outline-success"
-                                                title="Nhập hàng">
-                                                <i class="bi bi-plus-circle"></i>
-                                            </button>
+
                                         </div>
                                     </td>
                                 </tr>

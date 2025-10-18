@@ -765,7 +765,7 @@
                                     </div>
                                 </div>
                                 <div class="order-actions">
-                                    <a href="{{ route('ad.orders.show', $order->id) }}" class="btn-action btn-primary">
+                                    <a href="{{ route('client.orders.show', $order->id) }}" class="btn-action btn-primary">
                                         <i class="fas fa-eye me-2"></i>Chi Tiết
                                     </a>
                                     <button class="btn-action btn-outline">

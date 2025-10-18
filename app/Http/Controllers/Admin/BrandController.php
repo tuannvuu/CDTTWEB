@@ -41,7 +41,7 @@ class BrandController extends Controller
         } catch (Throwable $th) {
             $message = 'Thêm thất bại - Lỗi' . $th->getMessage();
         }
-        return redirect()->route('brand.create')->withInput()->with('message', $message);
+        return redirect()->route('ad.brand.create')->withInput()->with('message', $message);
     }
 
     public function edit($id)
@@ -68,7 +68,7 @@ class BrandController extends Controller
             $message = 'Cập nhật thất bại - Lỗi' . $th->getMessage();
         }
 
-        return redirect()->route('brand.edit', $id)->withInput()->with('message', $message);
+        return redirect()->route('ad.brand.edit', $id)->withInput()->with('message', $message);
     }
 
     public function delete($id)
@@ -81,6 +81,6 @@ class BrandController extends Controller
             $message = 'Xóa thất bại - Lỗi' . $th->getMessage();
         }
 
-        return redirect()->route('brand.index')->with('message', $message);
+        return redirect()->route('ad.brand.index')->with('message', $message);
     }
 }

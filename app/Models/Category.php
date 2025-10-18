@@ -17,4 +17,9 @@ class Category extends Model
     {
         return $this->hasMany(Product::class, 'cateid', 'cateid');
     }
+    public function getRouteKeyName()
+{
+    return 'cateid';
+}
+
 }

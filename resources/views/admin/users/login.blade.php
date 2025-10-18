@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>FUTURE NET - ACCESS THE DIGITAL MILLENNIUM</title>
+    <title>FUTURE NET - TRUY CẬP KỶ NGUYÊN SỐ</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="{{ asset('css/login.css') }}" rel="stylesheet" />
@@ -17,7 +17,7 @@
         <div class="scan-line"></div>
         <div class="login-header">
             <div class="logo">FUTURE NET</div>
-            <p class="tagline">ACCESS THE DIGITAL MILLENNIUM</p>
+            <p class="tagline">TRUY CẬP KỶ NGUYÊN SỐ</p>
         </div>
 
         <div class="login-body">
@@ -27,10 +27,10 @@
             <form action="{{ route('ad.loginpost') }}" method="POST">
                 @csrf
                 <div class="mb-4">
-                    <label for="f-username" class="form-label">EMAIL ADDRESS</label>
+                    <label for="f-username" class="form-label">ĐỊA CHỈ EMAIL</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                        <input type="text" class="form-control" id="f-username" placeholder="ENTER EMAIL ADDRESS"
+                        <input type="text" class="form-control" id="f-username" placeholder="NHẬP ĐỊA CHỈ EMAIL"
                             name="email" value="{{ old('email') }}">
                     </div>
                     @error('email')
@@ -40,10 +40,10 @@
                 </div>
 
                 <div class="mb-4">
-                    <label for="f-password" class="form-label">ACCESS CODE</label>
+                    <label for="f-password" class="form-label">MẬT KHẨU</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-key"></i></span>
-                        <input type="password" class="form-control" id="f-password" placeholder="ENTER ACCESS CODE"
+                        <input type="password" class="form-control" id="f-password" placeholder="NHẬP MẬT KHẨU"
                             name="password">
                         <button class="btn btn-outline-secondary" type="button" id="togglePassword"
                             style="border-color: rgba(10, 100, 255, 0.5); color: var(--neon-blue);">
@@ -58,11 +58,11 @@
 
                 <div class="form-check mb-4">
                     <input class="form-check-input" type="checkbox" id="remember" name="remember">
-                    <label class="form-check-label" for="remember">REMEMBER SESSION</label>
+                    <label class="form-check-label" for="remember">GHI NHỚ MẬT KHẨU</label>
                 </div>
 
                 <button type="submit" class="btn btn-login" id="loginBtn">
-                    <span id="btnText">ENTER THE FUTURE</span>
+                    <span id="btnText">ĐĂNG NHẬP</span>
                     <span id="btnSpinner" class="spinner-border spinner-border-sm d-none"></span>
                 </button>
 
@@ -85,15 +85,15 @@
             </form>
 
             <div class="login-footer">
-                <a href="{{ route('ad.create') }}">CREATE ACCOUNT</a>
-                <a href="{{ route('ad.forgotpass') }}">FORGOT PASSWORD</a>
+                <a href="{{ route('ad.create') }}">TẠO TÀI KHOẢN</a>
+                <a href="{{ route('ad.forgotpass') }}">QUÊN MẬT KHẨU</a>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Tạo hiệu ứng particles
+        // Tạo hiệu ứng hạt bay (particles)
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
             const particleCount = 30;
@@ -120,7 +120,7 @@
             }
         }
 
-        // Hiển thị/ẩn mật khẩu
+        // Hiển thị / ẩn mật khẩu
         document.getElementById('togglePassword').addEventListener('click', function() {
             const passwordInput = document.getElementById('f-password');
             const icon = this.querySelector('i');
@@ -136,14 +136,14 @@
             }
         });
 
-        // Xử lý hiển thị spinner khi submit form
+        // Hiển thị spinner khi submit form
         document.querySelector('form').addEventListener('submit', function() {
             document.getElementById('btnText').classList.add('d-none');
             document.getElementById('btnSpinner').classList.remove('d-none');
             document.getElementById('loginBtn').disabled = true;
         });
 
-        // Khởi tạo particles khi trang tải xong
+        // Khởi tạo hiệu ứng khi tải trang
         document.addEventListener('DOMContentLoaded', createParticles);
     </script>
 </body>

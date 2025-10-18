@@ -1,4 +1,4 @@
-@extends('layout.admin')
+@extends('layout.productdetails')
 
 @section('title', 'Chi tiết đơn hàng')
 
@@ -193,9 +193,11 @@
 
         <!-- Action Buttons -->
         <div class="d-flex justify-content-end gap-2 mt-4">
-            <a href="{{ route('ad.orders.index') }}" class="btn btn-secondary">
-                <i class="fas fa-arrow-left me-2"></i>Quay lại
-            </a>
+         <a class="navbar-brand d-flex align-items-center ms-2 bg-dark text-white px-3 py-2 rounded"
+   href="{{ route('homepage') }}">
+    <i class="fas fa-arrow-left me-2"></i>Quay lại
+</a>
+
             <button class="btn btn-warning" onclick="editOrder({{ $order->id }})">
                 <i class="fas fa-edit me-2"></i>Cập nhật trạng thái
             </button>
@@ -208,8 +210,43 @@
 @endsection
 
 @section('styles')
- <link rel="stylesheet" href="{{ asset('css/ad.show.order.css') }}">
+    <style>
+        .stats-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
 
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .stats-number {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stats-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+        }
+
+        .card-header {
+            border-radius: 15px 15px 0 0 !important;
+            border: none;
+        }
+    </style>
 @endsection
 
 @section('scripts')

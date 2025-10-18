@@ -125,60 +125,60 @@
                         </div>
                     </div>
 
-                    <!-- Cart Summary -->
-                    <div class="col-lg-5">
-                        <div class="cart-summary">
-                            <h3 class="section-title">
-                                <i class="fas fa-shopping-bag"></i>
-                                Đơn hàng của bạn
-                            </h3>
+                  <!-- Cart Summary -->
+<div class="col-lg-5">
+    <div class="cart-summary">
+        <h3 class="section-title">
+            <i class="fas fa-shopping-bag"></i>
+            Đơn hàng của bạn
+        </h3>
 
-                            <div class="cart-items">
-                                @foreach ($cart as $item)
-                                    @php
-                                        $subtotal = $item['price'] * $item['quantity'];
-                                    @endphp
-                                    <div class="cart-item">
-                                        <div class="item-image">
-                                            <i class="fas fa-laptop"></i>
-                                        </div>
-                                        <div class="item-details">
-                                            <div class="item-name">{{ $item['proname'] }}</div>
-                                            <div class="item-price">{{ number_format($item['price']) }} ₫</div>
-                                        </div>
-                                        <div class="item-quantity">x{{ $item['quantity'] }}</div>
-                                        <a href="{{ route('cartdel', ['id' => $item['productid']]) }}"
-                                            class="btn btn-sm btn-outline-danger ms-2">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                    </div>
-                                @endforeach
-                            </div>
-
-                            <div class="total-section">
-                                <div class="total-row">
-                                    <span>Số lượng sản phẩm:</span>
-                                    <span class="fw-semibold">{{ $totalQuantity }}</span>
-                                </div>
-                                <div class="total-row">
-                                    <span>Tạm tính:</span>
-                                    <span class="fw-semibold">{{ number_format($total) }} ₫</span>
-                                </div>
-                                <div class="total-row">
-                                    <span>Phí vận chuyển:</span>
-                                    <span class="text-success fw-semibold">Miễn phí</span>
-                                </div>
-                                <div class="total-row">
-                                    <span>Bảo hành:</span>
-                                    <span class="text-primary fw-semibold">12 tháng</span>
-                                </div>
-                                <div class="total-row grand-total">
-                                    <span>Tổng cộng:</span>
-                                    <span class="total-amount">{{ number_format($total) }} ₫</span>
-                                </div>
-                            </div>
-                        </div>
+        <div class="cart-items">
+            @foreach ($cart as $item)
+                @php
+                    $subtotal = $item['price'] * $item['quantity'];
+                @endphp
+                <div class="cart-item">
+                    <div class="item-image">
+                        <i class="fas fa-laptop"></i>
                     </div>
+                    <div class="item-details">
+                        <div class="item-name">{{ $item['proname'] }}</div>
+                        <div class="item-price">{{ number_format($item['price']) }} ₫</div>
+                    </div>
+                    <div class="item-quantity">x{{ $item['quantity'] }}</div>
+                    <a href="{{ route('cartdel', ['id' => $item['productid']]) }}"
+                        class="btn btn-sm btn-outline-danger ms-2">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </div>
+            @endforeach
+        </div>
+
+      <div class="total-section">
+    <div class="total-row">
+        <span>Số lượng sản phẩm:</span>
+        <span class="fw-semibold">{{ $totalQuantity }}</span>
+    </div>
+    <div class="total-row">
+        <span>Tạm tính:</span>
+        <span class="fw-semibold">{{ number_format($total) }} ₫</span>
+    </div>
+    <div class="total-row">
+        <span>Phí vận chuyển:</span>
+        <span class="text-success fw-semibold">Miễn phí</span>
+    </div>
+    <div class="total-row">
+        <span>Bảo hành:</span>
+        <span class="text-primary fw-semibold">12 tháng</span>
+    </div>
+    <div class="total-row grand-total">
+        <span>Tổng cộng:</span>
+        <span class="total-amount">{{ number_format($total) }} ₫</span>
+    </div>
+</div>
+
+
                 </div>
             </div>
         </div>
@@ -210,6 +210,7 @@
                 }, index * 100);
             });
         });
+        
     </script>
 </body>
 

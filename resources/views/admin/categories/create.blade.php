@@ -12,7 +12,7 @@
                 </h2>
                 <p class="text-muted mb-0">Tạo danh mục sản phẩm mới cho hệ thống</p>
             </div>
-            <a href="{{ route('cate.index') }}" class="btn btn-outline-secondary">
+            <a href="{{ route('ad.cate.index') }}" class="btn btn-outline-secondary">
                 <i class="fas fa-arrow-left me-2"></i>Quay lại danh sách
             </a>
         </div>
@@ -46,7 +46,7 @@
                         @endif
 
                         <!-- Form -->
-                        <form method="POST" action="{{ route('cate.store') }}" id="categoryForm">
+                        <form method="POST" action="{{ route('ad.cate.store') }}" id="categoryForm">
                             @csrf
 
                             <div class="mb-4">
@@ -92,7 +92,7 @@
                             </div>
 
                             <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
-                                <a href="{{ route('cate.index') }}" class="btn btn-outline-secondary">
+                                <a href="{{ route('ad.cate.index') }}" class="btn btn-outline-secondary">
                                     <i class="fas fa-times me-2"></i> Hủy bỏ
                                 </a>
                                 <button type="submit" class="btn btn-primary btn-gradient">
@@ -108,81 +108,7 @@
 @endsection
 
 @section('styles')
-    <style>
-        .card {
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        }
-
-        .card-header {
-            border-bottom: 1px solid #eaeaea;
-            border-radius: 15px 15px 0 0 !important;
-            background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
-        }
-
-        .form-control {
-            border-radius: 10px;
-            padding: 0.75rem 1rem;
-            border: 1px solid #ced4da;
-            transition: all 0.3s ease;
-        }
-
-        .form-control:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.15);
-            transform: translateY(-1px);
-        }
-
-        .input-group-text {
-            border-radius: 10px 0 0 10px;
-            border-right: none;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-        }
-
-        .btn {
-            border-radius: 10px;
-            padding: 0.75rem 1.5rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            border: none;
-        }
-
-        .btn-gradient {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .btn-gradient:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-outline-secondary {
-            border: 1px solid #6c757d;
-            color: #6c757d;
-        }
-
-        .btn-outline-secondary:hover {
-            background-color: #6c757d;
-            border-color: #6c757d;
-            color: white;
-            transform: translateY(-1px);
-        }
-
-        .alert {
-            border-radius: 10px;
-            border: none;
-        }
-
-        .invalid-feedback {
-            font-size: 0.875rem;
-        }
-
-        .text-muted small {
-            font-size: 0.8rem;
-        }
-    </style>
+<link rel="stylesheet" href="{{ asset('css/create.category.css') }}">
 @endsection
 
 @section('scripts')

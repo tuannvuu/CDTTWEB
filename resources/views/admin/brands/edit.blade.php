@@ -10,7 +10,7 @@
                 <h2 class="h4 mb-1 fw-bold text-dark">Cập nhật Thương hiệu</h2>
                 <p class="text-muted mb-0">Chỉnh sửa thông tin thương hiệu "{{ $brand->brandname }}"</p>
             </div>
-            <a href="{{ route('brand.index') }}" class="btn btn-outline-secondary">
+            <a href="{{ route('ad.brand.index') }}" class="btn btn-outline-secondary">
                 <i class="fas fa-arrow-left me-2"></i>Quay lại
             </a>
         </div>
@@ -44,7 +44,7 @@
                         @endif
 
                         <!-- Form -->
-                        <form method="POST" action="{{ route('brand.update', $brand->id) }}">
+                        <form method="POST" action="{{ route('ad.brand.update', $brand->id) }}">
                             @csrf
 
                             <div class="mb-4">
@@ -83,7 +83,7 @@
                             </div>
 
                             <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
-                                <a href="{{ route('brand.index') }}" class="btn btn-outline-secondary">
+                                <a href="{{ route('ad.brand.index') }}" class="btn btn-outline-secondary">
                                     <i class="fas fa-times me-2"></i> Hủy bỏ
                                 </a>
                                 <button type="submit" class="btn btn-primary">
@@ -128,54 +128,5 @@
     </script>
 @endsection
 
-<style>
-    .card {
-        border: none;
-        border-radius: 12px;
-    }
+<link rel="stylesheet" href="{{ asset('css/edit.brands.css') }}">
 
-    .card-header {
-        border-bottom: 1px solid #eaeaea;
-        border-radius: 12px 12px 0 0 !important;
-    }
-
-    .form-control {
-        border-radius: 8px;
-        padding: 0.75rem 1rem;
-        border: 1px solid #ced4da;
-        transition: all 0.2s;
-    }
-
-    .form-control:focus {
-        border-color: #86b7fe;
-        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
-    }
-
-    .btn {
-        border-radius: 8px;
-        padding: 0.75rem 1.5rem;
-        font-weight: 500;
-        transition: all 0.2s;
-    }
-
-    .btn-primary {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border: none;
-    }
-
-    .btn-primary:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-    }
-
-    .btn-outline-secondary:hover {
-        background-color: #6c757d;
-        border-color: #6c757d;
-        color: white;
-    }
-
-    .alert {
-        border-radius: 8px;
-        border: none;
-    }
-</style>

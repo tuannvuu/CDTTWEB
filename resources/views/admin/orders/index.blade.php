@@ -133,7 +133,7 @@
                             <th>THÔNG TIN ĐƠN HÀNG</th>
                             <th width="120" class="text-center">SẢN PHẨM</th>
                             <th width="150" class="text-center">TRẠNG THÁI</th>
-                            <th width="120" class="text-center">THAO TÁC</th>
+                           
                         </tr>
                     </thead>
                     <tbody>
@@ -193,23 +193,7 @@
                                         <small class="text-muted">{{ $order->created_at->format('H:i') }}</small>
                                     </div>
                                 </td>
-                                <td>
-                                    <div class="d-flex justify-content-center gap-1">
-                                        <a href="{{ route('ad.orders.show', $order->id) }}"
-                                            class="btn btn-sm btn-outline-primary" title="Xem chi tiết">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
-                                        <button class="btn btn-sm btn-outline-warning"
-                                            onclick="editOrder({{ $order->id }})" title="Cập nhật trạng thái">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-danger"
-                                            onclick="confirmDelete({{ $order->id }}, 'Đơn hàng #{{ $order->id }}')"
-                                            title="Hủy đơn hàng">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
+
                             </tr>
                         @empty
                             <tr>
@@ -269,151 +253,7 @@
 @endsection
 
 @section('styles')
-    <style>
-        :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            --hover-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-        }
-
-        .page-header {
-            background: var(--primary-gradient);
-            padding: 2.5rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .page-header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 100%;
-            height: 200%;
-            background: rgba(255, 255, 255, 0.1);
-            transform: rotate(45deg);
-        }
-
-        .stats-card {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-            box-shadow: var(--card-shadow);
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
-
-        .stats-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--hover-shadow);
-        }
-
-        .stats-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .table-container {
-            background: white;
-            border-radius: 15px;
-            box-shadow: var(--card-shadow);
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
-
-        .table-container:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--hover-shadow);
-        }
-
-        .table-header {
-            background: var(--primary-gradient);
-            color: white;
-            padding: 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .table-header h3 {
-            margin: 0;
-            font-weight: 600;
-        }
-
-        .table thead th {
-            background: #f8f9fa;
-            border: none;
-            font-weight: 600;
-            color: #495057;
-            padding: 1.25rem 1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border-bottom: 2px solid #e9ecef;
-        }
-
-        .table tbody tr {
-            transition: all 0.3s ease;
-            border-left: 3px solid transparent;
-        }
-
-        .table tbody tr:hover {
-            background-color: #f8f9ff;
-            border-left: 3px solid #667eea;
-            transform: translateX(5px);
-        }
-
-        .table tbody td {
-            border-color: #f0f0f0;
-            padding: 1.25rem 1rem;
-            vertical-align: middle;
-        }
-
-        .avatar {
-            font-weight: 600;
-        }
-
-        .badge.rounded-pill {
-            padding: 0.5rem 1rem;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 3rem;
-            color: #6c757d;
-        }
-
-        .empty-state i {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            opacity: 0.5;
-        }
-
-        .btn-sm {
-            padding: 0.25rem 0.5rem;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-sm:hover {
-            transform: translateY(-1px);
-        }
-
-        @media (max-width: 768px) {
-            .table-header {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-
-            .btn-sm {
-                padding: 0.2rem 0.4rem;
-                font-size: 0.8rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/ad.index.order.css') }}">
 @endsection
 
 @section('scripts')

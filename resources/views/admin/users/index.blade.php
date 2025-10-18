@@ -46,7 +46,7 @@
                                         <th>Email</th>
                                         <th width="120">Vai trò</th>
                                         <th width="150">Ngày tạo</th>
-                                        <th width="120" class="text-center">Thao tác</th>
+                                
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -97,24 +97,7 @@
                                                     {{ $user->created_at ? $user->created_at->format('H:i') : 'N/A' }}
                                                 </small>
                                             </td>
-                                            <td class="text-center">
-                                                <div class="btn-group btn-group-sm" role="group">
-                                                    <button type="button" class="btn btn-outline-primary"
-                                                        data-bs-toggle="tooltip" title="Xem chi tiết">
-                                                        <i class="fas fa-eye"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-outline-warning"
-                                                        data-bs-toggle="tooltip" title="Chỉnh sửa">
-                                                        <i class="fas fa-edit"></i>
-                                                    </button>
-                                                    @if ($user->role != 1)
-                                                        <button type="button" class="btn btn-outline-danger"
-                                                            data-bs-toggle="tooltip" title="Xóa người dùng">
-                                                            <i class="fas fa-trash"></i>
-                                                        </button>
-                                                    @endif
-                                                </div>
-                                            </td>
+                                            
                                         </tr>
                                     @empty
                                         <tr>
