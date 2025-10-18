@@ -52,7 +52,7 @@ Route::get('/', [HomeController::class, 'index'])->name('homepage');
 
 // Giỏ hàng
 Route::post('/cartadd/{id}', [CartController::class, 'add'])->name('cartadd');
-Route::get('/cartdel/{id}', [CartController::class, 'del'])->name('cartdel');
+Route::delete('/cartdel/{id}', [CartController::class, 'del'])->name('cartdel');
 
 
 
@@ -130,12 +130,6 @@ Route::post('/admin/resetpass/{id}', [UserController::class, 'handleReset'])->na
 Route::get('/account', [UserController::class, 'profile'])
     ->name('user.profile')
     ->middleware('auth');
-
-
-Route::prefix('admin')->middleware('auth')->name('cl.')->group(function () {
-
-    Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
-});
 
 /*
 |--------------------------------------------------------------------------

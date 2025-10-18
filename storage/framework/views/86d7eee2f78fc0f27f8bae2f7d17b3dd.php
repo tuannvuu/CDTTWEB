@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
     <title>Giỏ hàng - TechStore</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="{{ asset('css/cartshow.css') }}">
+    <link rel="stylesheet" href="<?php echo e(asset('css/cartshow.css')); ?>">
     <style>
         /* Thêm style này để nút xóa (button) trông giống link (a) */
         .remove-btn-form {
@@ -56,7 +56,7 @@
             </h1>
 
             <div class="cart-container">
-                @if (count($cart) > 0)
+                <?php if(count($cart) > 0): ?>
                     <div class="promo-section">
                         <div class="promo-input-group">
                             <input type="text" class="promo-input" placeholder="Nhập mã giảm giá...">
@@ -72,50 +72,51 @@
                         <div></div>
                     </div>
 
-                    @foreach ($cart as $item)
-                        @php
+                    <?php $__currentLoopData = $cart; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <?php
                             $subtotal = $item['price'] * $item['quantity'];
-                        @endphp
+                        ?>
 
-                        <div class="cart-item" data-productid="{{ $item['productid'] }}">
+                        <div class="cart-item" data-productid="<?php echo e($item['productid']); ?>">
                             <div class="product-info">
                                 <div class="product-image">
-                                    <img src="{{ asset('storage/products/' . $item['fileName']) }}"
-                                        alt="{{ $item['proname'] }}">
+                                    <img src="<?php echo e(asset('storage/products/' . $item['fileName'])); ?>"
+                                        alt="<?php echo e($item['proname']); ?>">
 
                                 </div>
                                 <div class="product-details">
-                                    <div class="product-name">{{ $item['proname'] }}</div>
+                                    <div class="product-name"><?php echo e($item['proname']); ?></div>
                                     <div class="product-category">Điện tử</div>
                                 </div>
                             </div>
-                            <div class="price price-highlight">{{ number_format($item['price']) }} ₫</div>
+                            <div class="price price-highlight"><?php echo e(number_format($item['price'])); ?> ₫</div>
                             <div class="quantity-controls">
                                 <button class="quantity-btn">-</button>
-                                <input type="text" class="quantity-input" value="{{ $item['quantity'] }}" readonly>
+                                <input type="text" class="quantity-input" value="<?php echo e($item['quantity']); ?>" readonly>
                                 <button class="quantity-btn">+</button>
                             </div>
 
-                            <div class="subtotal" id="subtotal-{{ $item['productid'] }}">{{ number_format($subtotal) }}
+                            <div class="subtotal" id="subtotal-<?php echo e($item['productid']); ?>"><?php echo e(number_format($subtotal)); ?>
+
                                 ₫</div>
 
                             <div>
-                                <form action="{{ route('cartdel', ['id' => $item['productid']]) }}" method="POST"
+                                <form action="<?php echo e(route('cartdel', ['id' => $item['productid']])); ?>" method="POST"
                                     class="remove-btn-form">
-                                    @csrf
-                                    @method('DELETE')
+                                    <?php echo csrf_field(); ?>
+                                    <?php echo method_field('DELETE'); ?>
                                     <button type="submit" class="remove-btn" title="Xóa sản phẩm">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
                             </div>
                         </div>
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                     <div class="cart-summary">
                         <div class="summary-row">
                             <span>Tạm tính:</span>
-                            <span id="summary-subtotal">{{ number_format($total) }} ₫</span>
+                            <span id="summary-subtotal"><?php echo e(number_format($total)); ?> ₫</span>
                         </div>
                         <div class="summary-row">
                             <span>Giảm giá:</span>
@@ -127,14 +128,14 @@
                         </div>
                         <div class="summary-row total-row">
                             <span>Tổng cộng:</span>
-                            <span class="total-amount" id="summary-total">{{ number_format($total) }} ₫</span>
+                            <span class="total-amount" id="summary-total"><?php echo e(number_format($total)); ?> ₫</span>
                         </div>
-                        <a href="{{ route('checkout') }}" class="checkout-btn">
+                        <a href="<?php echo e(route('checkout')); ?>" class="checkout-btn">
                             <i class="fas fa-credit-card"></i>
                             Tiến hành thanh toán
                         </a>
                     </div>
-                @else
+                <?php else: ?>
                     <div class="empty-cart">
                         <i class="fas fa-shopping-cart"></i>
                         <p>Giỏ hàng của bạn đang trống</p>
@@ -143,7 +144,7 @@
                             Tiếp tục mua sắm
                         </a>
                     </div>
-                @endif
+                <?php endif; ?>
             </div>
         </div>
     </section>
@@ -178,7 +179,7 @@
         });
 
         function updateCartOnServer(productId, quantity) {
-            fetch("{{ route('cart.update') }}", {
+            fetch("<?php echo e(route('cart.update')); ?>", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -235,3 +236,4 @@
 </body>
 
 </html>
+<?php /**PATH D:\testCDTT\FinalAssignment_2123110231_NguyenTuanVu\resources\views/client/cart/cartshow.blade.php ENDPATH**/ ?>

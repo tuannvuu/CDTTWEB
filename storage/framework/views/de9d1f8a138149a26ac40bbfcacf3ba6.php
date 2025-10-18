@@ -7,7 +7,7 @@
     <title>Thanh toán - TechStore</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="{{ asset('css/checkout.css') }}">
+    <link rel="stylesheet" href="<?php echo e(asset('css/checkout.css')); ?>">
 
     <style>
         .cart-summary .item-image {
@@ -63,10 +63,28 @@
                 <div class="row g-0">
                     <div class="col-lg-7">
                         <div class="form-section">
-                            <x-alert></x-alert>
+                            <?php if (isset($component)) { $__componentOriginal5194778a3a7b899dcee5619d0610f5cf = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal5194778a3a7b899dcee5619d0610f5cf = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.alert','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('alert'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?> <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal5194778a3a7b899dcee5619d0610f5cf)): ?>
+<?php $attributes = $__attributesOriginal5194778a3a7b899dcee5619d0610f5cf; ?>
+<?php unset($__attributesOriginal5194778a3a7b899dcee5619d0610f5cf); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal5194778a3a7b899dcee5619d0610f5cf)): ?>
+<?php $component = $__componentOriginal5194778a3a7b899dcee5619d0610f5cf; ?>
+<?php unset($__componentOriginal5194778a3a7b899dcee5619d0610f5cf); ?>
+<?php endif; ?>
 
-                            <form action="{{ route('cart.save') }}" method="POST">
-                                @csrf
+                            <form action="<?php echo e(route('cart.save')); ?>" method="POST">
+                                <?php echo csrf_field(); ?>
 
                                 <h3 class="section-title">
                                     <i class="fas fa-user-circle"></i>
@@ -77,14 +95,14 @@
                                     <div class="col-md-6">
                                         <div class="form-floating">
                                             <input type="text" class="form-control" id="f-fullname" name="fullname"
-                                                value="{{ old('fullname') }}" placeholder="Họ và tên" required>
+                                                value="<?php echo e(old('fullname')); ?>" placeholder="Họ và tên" required>
                                             <label for="f-fullname">Họ và tên *</label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating">
                                             <input type="text" class="form-control" id="f-tel" name="tel"
-                                                value="{{ old('tel') }}" placeholder="Số điện thoại" required>
+                                                value="<?php echo e(old('tel')); ?>" placeholder="Số điện thoại" required>
                                             <label for="f-tel">Số điện thoại *</label>
                                         </div>
                                     </div>
@@ -92,13 +110,13 @@
 
                                 <div class="form-floating">
                                     <input type="text" class="form-control" id="f-address" name="address"
-                                        value="{{ old('address') }}" placeholder="Địa chỉ giao hàng" required>
+                                        value="<?php echo e(old('address')); ?>" placeholder="Địa chỉ giao hàng" required>
                                     <label for="f-address">Địa chỉ giao hàng *</label>
                                 </div>
 
                                 <div class="form-floating">
                                     <input type="text" class="form-control" id="f-description" name="description"
-                                        value="{{ old('description') }}" placeholder="Ghi chú đơn hàng">
+                                        value="<?php echo e(old('description')); ?>" placeholder="Ghi chú đơn hàng">
                                     <label for="f-description">Ghi chú đơn hàng (tùy chọn)</label>
                                 </div>
 
@@ -162,44 +180,44 @@
                             </h3>
 
                             <div class="cart-items">
-                                @foreach ($cart as $item)
-                                    @php
+                                <?php $__currentLoopData = $cart; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <?php
                                         $subtotal = $item['price'] * $item['quantity'];
-                                    @endphp
+                                    ?>
                                     <div class="cart-item">
 
                                         <div class="item-image">
-                                            <img src="{{ asset('storage/products/' . $item['fileName']) }}"
-                                                alt="{{ $item['proname'] }}">
+                                            <img src="<?php echo e(asset('storage/products/' . $item['fileName'])); ?>"
+                                                alt="<?php echo e($item['proname']); ?>">
                                         </div>
 
                                         <div class="item-details">
-                                            <div class="item-name">{{ $item['proname'] }}</div>
-                                            <div class="item-price">{{ number_format($item['price']) }} ₫</div>
+                                            <div class="item-name"><?php echo e($item['proname']); ?></div>
+                                            <div class="item-price"><?php echo e(number_format($item['price'])); ?> ₫</div>
                                         </div>
-                                        <div class="item-quantity">x{{ $item['quantity'] }}</div>
+                                        <div class="item-quantity">x<?php echo e($item['quantity']); ?></div>
 
-                                        <form action="{{ route('cartdel', ['id' => $item['productid']]) }}"
+                                        <form action="<?php echo e(route('cartdel', ['id' => $item['productid']])); ?>"
                                             method="POST" class="remove-btn-form-checkout ms-2">
-                                            @csrf
-                                            @method('DELETE')
+                                            <?php echo csrf_field(); ?>
+                                            <?php echo method_field('DELETE'); ?>
                                             <button type="submit" class="remove-btn-checkout" title="Xóa">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </form>
 
                                     </div>
-                                @endforeach
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </div>
 
                             <div class="total-section">
                                 <div class="total-row">
                                     <span>Số lượng sản phẩm:</span>
-                                    <span class="fw-semibold">{{ $totalQuantity }}</span>
+                                    <span class="fw-semibold"><?php echo e($totalQuantity); ?></span>
                                 </div>
                                 <div class="total-row">
                                     <span>Tạm tính:</span>
-                                    <span class="fw-semibold">{{ number_format($total) }} ₫</span>
+                                    <span class="fw-semibold"><?php echo e(number_format($total)); ?> ₫</span>
                                 </div>
                                 <div class="total-row">
                                     <span>Phí vận chuyển:</span>
@@ -211,7 +229,7 @@
                                 </div>
                                 <div class="total-row grand-total">
                                     <span>Tổng cộng:</span>
-                                    <span class="total-amount">{{ number_format($total) }} ₫</span>
+                                    <span class="total-amount"><?php echo e(number_format($total)); ?> ₫</span>
                                 </div>
                             </div>
 
@@ -252,3 +270,4 @@
 </body>
 
 </html>
+<?php /**PATH D:\testCDTT\FinalAssignment_2123110231_NguyenTuanVu\resources\views/client/cart/checkout.blade.php ENDPATH**/ ?>

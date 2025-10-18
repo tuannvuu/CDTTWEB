@@ -27,39 +27,44 @@ class CartController extends Controller
         return view('client.cart.cartshow', compact('cart', 'total', 'totalQuantity'));
     }
 
+
     // ➕ Thêm sản phẩm vào giỏ hàng
-   public function add(Request $req)
+    // ➕ Thêm sản phẩm vào giỏ hàng (ĐÃ SỬA ĐỂ LẤY SỐ LƯỢNG)
+    public function add(Request $req) // Giữ nguyên Request $req
     {
         $auth = auth();
-
         if (!$auth->check()) {
             return redirect()->route('login')->with('error', 'Vui lòng đăng nhập để tiếp tục');
         }
 
-        $id = $req->route('id');
+        $id = $req->route('id'); // Lấy id sản phẩm từ route
         $product = Product::findOrFail($id);
 
-        // ✅ Lấy giỏ hàng hiện tại (nếu có)
+        // 👇 Lấy số lượng từ form gửi lên (name="quantity"), mặc định là 1 nếu không có
+        $requestedQuantity = (int) $req->input('quantity', 1);
+        // Đảm bảo số lượng không âm
+        if ($requestedQuantity <= 0) {
+            $requestedQuantity = 1;
+        }
+
         $cart = Session::get('cart', []);
 
-        // ✅ Nếu sản phẩm đã có thì tăng số lượng
         if (isset($cart[$product->id])) {
-            $cart[$product->id]['quantity'] += 1;
+            // ✅ ĐÚNG: Cộng thêm số lượng yêu cầu
+            $cart[$product->id]['quantity'] += $requestedQuantity;
         } else {
-            // ✅ Nếu chưa có, thêm mới vào giỏ hàng
+            // ✅ ĐÚNG: Thêm mới với số lượng yêu cầu
             $cart[$product->id] = [
                 'productid' => $product->id,
                 'proname'   => $product->proname,
-                'quantity'  => 1,
+                'quantity'  => $requestedQuantity, // <-- Dùng số lượng yêu cầu
                 'price'     => $product->price,
-                'fileName'  => $product->image ?? 'no-image.png',
+                'fileName'  => $product->fileName ? $product->fileName : 'no-image.jpg',
             ];
         }
 
-        // ✅ Lưu lại giỏ hàng mới
         Session::put('cart', $cart);
-
-        return redirect()->back()->with('mess', 'Đã thêm sản phẩm vào giỏ hàng');
+        return redirect()->back()->with('mess', 'Đã thêm ' . $requestedQuantity . ' sản phẩm vào giỏ hàng'); // Thêm thông báo số lượng
     }
     // ❌ Xoá sản phẩm khỏi giỏ hàng
     public function del($id)
@@ -75,29 +80,29 @@ class CartController extends Controller
     }
 
     // 🧾 Trang thanh toán (checkout)
-   // 🧾 Trang thanh toán (checkout)
-public function checkout()
-{
-    // ✅ Lấy giỏ hàng hiện tại
-    $cart = session()->get('cart', []);
+    // 🧾 Trang thanh toán (checkout)
+    public function checkout()
+    {
+        // ✅ Lấy giỏ hàng hiện tại
+        $cart = session()->get('cart', []);
 
-    // Nếu giỏ hàng trống → quay lại
-    if (empty($cart)) {
-        return redirect()->route('cart.show')->with('error', 'Giỏ hàng trống, vui lòng thêm sản phẩm.');
+        // Nếu giỏ hàng trống → quay lại
+        if (empty($cart)) {
+            return redirect()->route('cart.show')->with('error', 'Giỏ hàng trống, vui lòng thêm sản phẩm.');
+        }
+
+        // ✅ Tính tổng tiền và số lượng
+        $total = 0;
+        $totalQuantity = 0;
+
+        foreach ($cart as $item) {
+            $total += $item['price'] * $item['quantity'];
+            $totalQuantity += $item['quantity'];
+        }
+
+        // ✅ Trả ra view với toàn bộ giỏ hàng
+        return view('client.cart.checkout', compact('cart', 'total', 'totalQuantity'));
     }
-
-    // ✅ Tính tổng tiền và số lượng
-    $total = 0;
-    $totalQuantity = 0;
-
-    foreach ($cart as $item) {
-        $total += $item['price'] * $item['quantity'];
-        $totalQuantity += $item['quantity'];
-    }
-
-    // ✅ Trả ra view với toàn bộ giỏ hàng
-    return view('client.cart.checkout', compact('cart', 'total', 'totalQuantity'));
-}
 
 
     // 💾 Lưu đơn hàng vào DB
@@ -127,7 +132,7 @@ public function checkout()
         foreach ($cart as $item) {
             OrderItem::create([
                 'orderid'  => $order->id,
-                'productid'=> $item['productid'],
+                'productid' => $item['productid'],
                 'quantity' => $item['quantity'],
                 'price'    => $item['price'],
                 'subtotal' => $item['price'] * $item['quantity'],
@@ -191,20 +196,43 @@ public function checkout()
     }
 
     // 🔄 Cập nhật số lượng giỏ hàng
-   public function updateCart(Request $request)
-{
-    $cart = session()->get('cart', []);
-    $id = $request->id; // phải là product_id
-    $quantity = (int) $request->quantity;
+    public function updateCart(Request $request)
+    {
+        // 1. Validate dữ liệu
+        $request->validate([
+            'productid' => 'required', // Tên key phải là 'productid'
+            'quantity'  => 'required|integer|min:1',
+        ]);
 
-    if (isset($cart[$id])) {
-        $cart[$id]['quantity'] = max(1, $quantity);
-        session()->put('cart', $cart);
+        $cart = session()->get('cart', []);
+        $productId = $request->productid; // Lấy 'productid'
+        $quantity = (int) $request->quantity;
+
+        // 2. Kiểm tra và cập nhật Session
+        if (isset($cart[$productId])) { // Dùng $productId làm key
+            $cart[$productId]['quantity'] = $quantity;
+            session()->put('cart', $cart); // Lưu lại session
+
+            // 3. Tính toán lại giá trị mới
+            $subtotal = $cart[$productId]['price'] * $quantity;
+
+            $total = 0;
+            $totalQuantity = 0;
+            foreach ($cart as $item) {
+                $total += $item['price'] * $item['quantity'];
+                $totalQuantity += $item['quantity'];
+            }
+
+            // 4. Trả về JSON cho JavaScript
+            return response()->json([
+                'message'            => 'Cập nhật giỏ hàng thành công!',
+                'subtotal_formatted' => number_format($subtotal) . ' ₫',
+                'total_formatted'    => number_format($total) . ' ₫',
+                'totalQuantity'      => $totalQuantity,
+            ]);
+        }
+
+        // Nếu không tìm thấy
+        return response()->json(['error' => 'Sản phẩm không tìm thấy.'], 404);
     }
-
-    return redirect()->route('cart.show')->with('mess', 'Đã cập nhật số lượng');
-}
-
-
-
 }
