@@ -53,14 +53,14 @@ Route::get('/', [HomeController::class, 'index'])->name('homepage');
 // Giỏ hàng
 Route::post('/cartadd/{id}', [CartController::class, 'add'])->name('cartadd');
 Route::get('/cartdel/{id}', [CartController::class, 'del'])->name('cartdel');
-Route::post('/cartsave', [CartController::class, 'save'])->name('cart.save');
+
 
 
 // ⚠️ trước là return view, giờ đổi thành controller để đúng chuẩn
 Route::get('/cart', [CartController::class, 'show'])->name('cartshow');
 Route::get('/cartcheckout', [CartController::class, 'checkout'])->name('checkout');
 Route::post('/cart/update', [CartController::class, 'updateCart'])->name('cart.update');
- Route::post('/cart/save', [CartController::class, 'save'])->name('cart.save');
+Route::post('/cart/save', [CartController::class, 'save'])->name('cart.save');
 
 // Routes sản phẩm phía client
 Route::prefix('products')->name('client.products.')->group(function () {
@@ -132,9 +132,10 @@ Route::get('/account', [UserController::class, 'profile'])
     ->middleware('auth');
 
 
-    Route::prefix('admin')->middleware('auth')->name('cl.')->group(function () {
+Route::prefix('admin')->middleware('auth')->name('cl.')->group(function () {
 
-     Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');});
+    Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -161,12 +162,10 @@ Route::prefix('admin')->middleware('auth')->name('ad.')->group(function () {
         Route::get('/categories', [CategoryController::class, 'index'])->name('index');
         Route::get('/categories/create', [CategoryController::class, 'create'])->name('create');
         Route::post('/categories/store', [CategoryController::class, 'store'])->name('store');
-         Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('edit');
-    Route::put('/categories/{category}', [CategoryController::class, 'update'])->name('update');
-        
-     Route::delete('/categories/{category}', [CategoryController::class, 'delete'])->name('delete');
+        Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('edit');
+        Route::put('/categories/{category}', [CategoryController::class, 'update'])->name('update');
 
-
+        Route::delete('/categories/{category}', [CategoryController::class, 'delete'])->name('delete');
     });
 
 
@@ -182,15 +181,15 @@ Route::prefix('admin')->middleware('auth')->name('ad.')->group(function () {
 
 
     // Product Management
-   // Product Management
-Route::middleware('auth')->group(function () {
-    Route::get('/products', [ProductController::class, 'index'])->name('pro.index');
-    Route::get('/products/create', [ProductController::class, 'create'])->name('pro.create');
-    Route::post('/products/store', [ProductController::class, 'store'])->name('pro.store');
-    Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('pro.edit');
-    Route::put('/products/{id}', [ProductController::class, 'update'])->name('pro.update');
-    Route::delete('/products/{id}', [ProductController::class, 'delete'])->name('pro.delete');
-});
+    // Product Management
+    Route::middleware('auth')->group(function () {
+        Route::get('/products', [ProductController::class, 'index'])->name('pro.index');
+        Route::get('/products/create', [ProductController::class, 'create'])->name('pro.create');
+        Route::post('/products/store', [ProductController::class, 'store'])->name('pro.store');
+        Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('pro.edit');
+        Route::put('/products/{id}', [ProductController::class, 'update'])->name('pro.update');
+        Route::delete('/products/{id}', [ProductController::class, 'delete'])->name('pro.delete');
+    });
 
 
 
