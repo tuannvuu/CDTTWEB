@@ -9,14 +9,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('categories', function (Blueprint $table) {
-            $table->string('image')->nullable()->after('catename');
+            // Chỉ thêm cột nếu chưa tồn tại
+            if (!Schema::hasColumn('categories', 'image')) {
+                $table->string('image')->nullable()->after('catename');
+            }
         });
     }
 
     public function down(): void
     {
         Schema::table('categories', function (Blueprint $table) {
-            $table->dropColumn('image');
+            // Chỉ xóa cột nếu tồn tại
+            if (Schema::hasColumn('categories', 'image')) {
+                $table->dropColumn('image');
+            }
         });
     }
 };
