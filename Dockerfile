@@ -14,8 +14,9 @@ RUN a2enmod rewrite
 WORKDIR /var/www/html
 COPY . .
 
-# 4. Cài Composer
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+# 4. Cài Composer trực tiếp (thay vì pull từ Docker Hub)
+RUN curl -sS https://getcomposer.org/installer | php && \
+    mv composer.phar /usr/local/bin/composer
 RUN composer install --no-dev --optimize-autoloader
 
 # 5. Set quyền truy cập storage + cache
