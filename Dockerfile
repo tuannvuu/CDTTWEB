@@ -1,5 +1,5 @@
-# 🐳 Sử dụng PHP 8.2 kèm Apache
-FROM php:8.2-apache
+# 🐳 Sử dụng PHP 8.2 kèm Apache từ AWS mirror (ổn định hơn)
+FROM public.ecr.aws/docker/library/php:8.2-apache
 
 # 1. Cài các extension cần thiết
 RUN apt-get update && apt-get install -y \
@@ -14,15 +14,15 @@ RUN a2enmod rewrite
 WORKDIR /var/www/html
 COPY . .
 
-# 4. Cài Composer trực tiếp (thay vì pull từ Docker Hub)
+# 4. Cài Composer trực tiếp (không phụ thuộc Docker Hub)
 RUN curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer
 RUN composer install --no-dev --optimize-autoloader
 
-# 5. Set quyền truy cập storage + cache
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+# 5. Phân quyền
+RUN chown -R www-data:www-data storage bootstrap/cache
 
-# 6. Thiết lập quyền và chạy các lệnh Laravel sau khi container khởi động
+# 6. Lệnh khởi động
 ENTRYPOINT bash -c "\
     chmod -R 775 storage bootstrap/cache && \
     php artisan storage:link && \
