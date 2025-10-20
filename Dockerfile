@@ -14,7 +14,7 @@ RUN a2enmod rewrite
 WORKDIR /var/www/html
 COPY . .
 
-# 4. Cài Composer trực tiếp (không phụ thuộc Docker Hub)
+# 4. Cài Composer trực tiếp
 RUN curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer
 RUN composer install --no-dev --optimize-autoloader
@@ -22,12 +22,12 @@ RUN composer install --no-dev --optimize-autoloader
 # 5. Phân quyền
 RUN chown -R www-data:www-data storage bootstrap/cache
 
-# 6. Lệnh khởi động chính
+# 6. Lệnh khởi động chính (ổn định)
 ENTRYPOINT bash -c "\
     chmod -R 775 storage bootstrap/cache && \
-    php artisan storage:link && \
-    php artisan config:clear && \
-    php artisan cache:clear && \
-    php artisan migrate --force && \
+    php artisan storage:link || true && \
+    php artisan config:clear || true && \
+    php artisan cache:clear || true && \
+    php artisan migrate --force || true && \
     apache2-foreground \
 "
