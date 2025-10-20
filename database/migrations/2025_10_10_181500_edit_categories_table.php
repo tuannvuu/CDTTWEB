@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('categories', function (Blueprint $table) {
-            $table->string('description', 300)->nullable();
-        });
+        // ✅ Chỉ thêm cột nếu chưa có
+        if (!Schema::hasColumn('categories', 'description')) {
+            Schema::table('categories', function (Blueprint $table) {
+                $table->string('description', 300)->nullable()->after('catename');
+            });
+        }
     }
 
     /**
@@ -21,8 +24,11 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('categories', function (Blueprint $table) {
-            //
-        });
+        // ✅ Chỉ xóa cột nếu có
+        if (Schema::hasColumn('categories', 'description')) {
+            Schema::table('categories', function (Blueprint $table) {
+                $table->dropColumn('description');
+            });
+        }
     }
 };
