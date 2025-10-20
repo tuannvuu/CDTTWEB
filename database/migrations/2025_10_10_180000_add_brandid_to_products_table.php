@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->unsignedInteger('brandid');
-            $table->foreign('brandid')->references('id')->on('brands');
-        });
+        if (!Schema::hasColumn('products', 'brandid')) {
+            Schema::table('products', function (Blueprint $table) {
+                $table->unsignedBigInteger('brandid')->after('cateid');
+            });
+        }
     }
+
 
     /**
      * Reverse the migrations.
