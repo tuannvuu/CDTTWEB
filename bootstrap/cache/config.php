@@ -118,7 +118,7 @@
     'name' => 'Laravel',
     'env' => 'production',
     'debug' => false,
-    'url' => '${RAILWAY_STATIC_URL}',
+    'url' => 'https://cdttweb-production.up.railway.app/',
     'frontend_url' => 'http://localhost:3000',
     'asset_url' => NULL,
     'timezone' => 'UTC',
@@ -456,7 +456,7 @@
       array (
         'driver' => 'local',
         'root' => 'D:\\testCDTT\\FinalAssignment_2123110231_NguyenTuanVu\\storage\\app/public',
-        'url' => '${RAILWAY_STATIC_URL}/storage',
+        'url' => 'https://cdttweb-production.up.railway.app//storage',
         'visibility' => 'public',
         'throw' => false,
         'report' => false,
@@ -593,7 +593,7 @@
         'username' => NULL,
         'password' => NULL,
         'timeout' => NULL,
-        'local_domain' => NULL,
+        'local_domain' => 'cdttweb-production.up.railway.app',
       ),
       'ses' => 
       array (
