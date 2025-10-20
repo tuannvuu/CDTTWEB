@@ -22,7 +22,7 @@ RUN composer install --no-dev --optimize-autoloader
 # 5. Phân quyền
 RUN chown -R www-data:www-data storage bootstrap/cache
 
-# 6. Lệnh khởi động
+# 6. Lệnh khởi động chính
 ENTRYPOINT bash -c "\
     chmod -R 775 storage bootstrap/cache && \
     php artisan storage:link && \
@@ -31,7 +31,3 @@ ENTRYPOINT bash -c "\
     php artisan migrate --force && \
     apache2-foreground \
 "
-
-# 7. Start Apache
-CMD ["apache2-foreground"]
-
