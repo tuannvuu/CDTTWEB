@@ -32,5 +32,6 @@ ENTRYPOINT bash -c "\
     apache2-foreground \
 "
 
-# 7. Expose port 80
-EXPOSE 80
+# 7. Start Apache
+CMD ["apache2-foreground"]
+
