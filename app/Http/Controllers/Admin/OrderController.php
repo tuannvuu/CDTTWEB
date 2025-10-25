@@ -17,6 +17,9 @@ class OrderController extends Controller
 
     public function index()
     {
+         if (auth()->user()->role != 1) {
+        return redirect('/')->with('error', 'Bạn không có quyền truy cập trang admin.');
+    }
         // Trang danh sách mới cần $orders
         $orders = Order::with(['customer', 'items'])->latest()->paginate(10);
         return view('admin.orders.index', compact('orders'));

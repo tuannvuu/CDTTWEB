@@ -41,7 +41,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('products.new') }}">
+                        <a class="nav-link" href="{{ route('client.products.new') }}">
                             <i class="bi bi-star me-1"></i> Sản phẩm mới
                         </a>
                     </li>

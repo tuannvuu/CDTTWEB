@@ -13,6 +13,9 @@ class BrandController extends Controller
 {
     public function index(Request $request)
     {
+         if (auth()->user()->role != 1) {
+        return redirect('/')->with('error', 'Bạn không có quyền truy cập trang admin.');
+    }
         $list = Brand::orderBy('brandname')
             ->paginate(8);
 

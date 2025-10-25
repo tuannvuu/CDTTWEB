@@ -13,6 +13,9 @@ class DashboardController extends Controller
 {
     public function index()
     {
+          if (auth()->user()->role != 1) {
+        return redirect('/')->with('error', 'Bạn không có quyền truy cập trang admin.');
+    }
         try {
             // Thống kê cơ bản
             $totalProducts = Product::count();

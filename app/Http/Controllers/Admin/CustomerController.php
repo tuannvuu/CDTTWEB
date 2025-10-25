@@ -9,7 +9,9 @@ use App\Models\Customer;
 class CustomerController extends Controller
 {
     public function index()
-    {
+    { if (auth()->user()->role != 1) {
+        return redirect('/')->with('error', 'Bạn không có quyền truy cập trang admin.');
+    }
         // THAY ĐỔI TỪ:
         // $customers = Customer::all();
         // HOẶC:

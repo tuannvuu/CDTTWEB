@@ -14,6 +14,9 @@ class UserController extends Controller
 {
     public function index()
     {
+         if (auth()->user()->role != 1) {
+        return redirect('/')->with('error', 'Bạn không có quyền truy cập trang admin.');
+    }
         // Hiển thị danh sách người dùng
         $users = User::paginate(10);
         return view('admin.users.index', compact('users'));
@@ -136,22 +139,22 @@ class UserController extends Controller
         return redirect()->route('user.profile');
     }
 
-    public function logout(Request $request)
-    {
-        $user = Auth::user();
+   public function logout(Request $request)
+{
+    $user = Auth::user();
 
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
 
-        if ($user && $user->role == 1) {
-            return redirect()->route('ad.login')
-                ->with('message', 'Đăng xuất thành công');
-        }
-
-        return redirect()->route('homepage')
+    if ($user && $user->role == 1) {
+        return redirect()->route('ad.login')
             ->with('message', 'Đăng xuất thành công');
     }
+
+    return redirect()->route('homepage')
+        ->with('message', 'Đăng xuất thành công');
+}
 
     // ---------------------- ĐỔI MẬT KHẨU ----------------------
 
