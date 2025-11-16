@@ -15,7 +15,7 @@ class Product extends Model
         'cateid',
         'description',
         'fileName',
-        'stock_quantity', // 👈 Thêm dòng này
+        
     ];
 
     public function category()

@@ -13,41 +13,6 @@
                     </h1>
                     <p class="page-subtitle text-white-50 mb-0">Quản lý thông tin khách hàng và lịch sử mua hàng</p>
                 </div>
-                <div class="col-md-4 text-md-end">
-                    <div class="btn-group">
-                        <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-download me-2"></i>Xuất dữ liệu
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li>
-                                <a class="dropdown-item" href="#" onclick="exportToExcel()">
-                                    <i class="fas fa-file-excel me-2 text-success"></i>Excel (.xlsx)
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#" onclick="exportToPDF()">
-                                    <i class="fas fa-file-pdf me-2 text-danger"></i>PDF (.pdf)
-                                </a>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#" onclick="printTable()">
-                                    <i class="fas fa-print me-2 text-secondary"></i>In danh sách
-                                </a>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#" onclick="exportToCSV()">
-                                    <i class="fas fa-file-csv me-2 text-info"></i>CSV (.csv)
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -90,7 +55,7 @@
                             <span class="input-group-text bg-light border-end-0">
                                 <i class="fas fa-search text-muted"></i>
                             </span>
-                            <input type="text" class="form-control" placeholder="Tìm kiếm khách hàng..."
+                            <input type="text" class="form-control" placeholder="Tìm kiếm khách hàng (tên, email)..."
                                 id="searchInput">
                         </div>
                     </div>
@@ -134,7 +99,7 @@
                             <th>Liên hệ</th>
                             <th width="120" class="text-center">Số đơn hàng</th>
                             <th width="150" class="text-center">Trạng thái</th>
-                           
+
                         </tr>
                     </thead>
                     <tbody>
@@ -145,10 +110,12 @@
                                     <div class="d-flex align-items-center">
                                         <div class="avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3"
                                             style="width: 40px; height: 40px; font-size: 1.1rem;">
-                                            {{ strtoupper(substr($customer->fullname, 0, 1)) }}
+                                            {{-- SỬA: Dùng 'name' --}}
+                                            {{ strtoupper(substr($customer->name, 0, 1)) }}
                                         </div>
                                         <div>
-                                            <div class="fw-semibold text-dark">{{ $customer->fullname }}</div>
+                                            {{-- SỬA: Dùng 'name' --}}
+                                            <div class="fw-semibold text-dark">{{ $customer->name }}</div>
                                             <small class="text-muted">Đăng ký:
                                                 {{ $customer->created_at->format('d/m/Y') }}</small>
                                         </div>
@@ -156,17 +123,12 @@
                                 </td>
                                 <td>
                                     <div class="contact-info">
+                                        {{-- SỬA: Dùng 'email' và đổi icon --}}
                                         <div class="d-flex align-items-center mb-1">
-                                            <i class="fas fa-phone text-success me-2"></i>
-                                            <span>{{ $customer->tel }}</span>
+                                            <i class="fas fa-envelope text-info me-2"></i>
+                                            <span>{{ $customer->email }}</span>
                                         </div>
-                                        <div class="d-flex align-items-center">
-                                            <i class="fas fa-map-marker-alt text-danger me-2"></i>
-                                            <small class="text-truncate" style="max-width: 200px;"
-                                                title="{{ $customer->address }}">
-                                                {{ $customer->address ?: 'Chưa cập nhật' }}
-                                            </small>
-                                        </div>
+                                        {{-- SỬA: Xóa bỏ dòng địa chỉ --}}
                                     </div>
                                 </td>
                                 <td class="text-center">
@@ -185,13 +147,13 @@
                                         </span>
                                     @endif
                                 </td>
-                               
+
                             </tr>
                         @empty
                             <tr>
                                 <td colspan="6">
                                     <div class="empty-state">
-                                        <i class="fas fa-users-slash"></i>
+                                        <i class="fas fa-users-slash fa-3x mb-3"></i> <!-- Thay đổi icon một chút -->
                                         <h5>Chưa có khách hàng nào</h5>
                                         <p class="mb-0">Hiện tại chưa có khách hàng nào đăng ký trong hệ thống</p>
                                     </div>
@@ -246,7 +208,7 @@
 @endsection
 
 @section('styles')
-<link rel="stylesheet" href="{{ asset('css/customer.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/customer.css') }}">
 @endsection
 
 @section('scripts')
@@ -333,35 +295,39 @@
             showExportModal('csv');
         }
 
+        // SỬA: Cập nhật hàm downloadExport để khớp với cột mới
         function downloadExport(format) {
-            // Tạo bảng đơn giản cho export
             let content = '';
 
             if (format === 'csv') {
                 // CSV format
-                content = 'ID,Họ tên,SĐT,Địa chỉ,Số đơn hàng,Ngày đăng ký,Trạng thái\n';
+                content = 'ID,Họ tên,Email,Số đơn hàng,Ngày đăng ký,Trạng thái\n';
                 document.querySelectorAll('.customer-row').forEach(row => {
                     const cells = row.querySelectorAll('td');
                     const id = cells[0].textContent.replace('#', '');
                     const name = cells[1].querySelector('.fw-semibold').textContent.replace(/,/g, ' ');
-                    const phone = cells[2].querySelector('span').textContent;
-                    const address = cells[2].querySelector('small').textContent.replace(/,/g, ' ');
+                    const email = cells[2].querySelector('span').textContent; // Sửa: Lấy email
                     const orders = cells[3].querySelector('.badge').textContent;
                     const date = cells[1].querySelector('.text-muted').textContent.replace('Đăng ký: ', '');
                     const status = cells[4].querySelector('.badge').textContent.replace(/,/g, ' ');
 
-                    content += `"${id}","${name}","${phone}","${address}","${orders}","${date}","${status}"\n`;
+                    content +=
+                    `"${id}","${name}","${email}","${orders}","${date}","${status}"\n`; // Sửa: Thêm email
                 });
             } else {
                 // HTML format for Excel/PDF
                 content = `
+                    <style>
+                        table { border-collapse: collapse; width: 100%; }
+                        th, td { border: 1px solid #ddd; padding: 8px; }
+                        th { background-color: #f2f2f2; }
+                    </style>
                     <table class="export-table">
                         <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>Họ tên</th>
-                                <th>SĐT</th>
-                                <th>Địa chỉ</th>
+                                <th>Email</th>
                                 <th>Số đơn hàng</th>
                                 <th>Ngày đăng ký</th>
                                 <th>Trạng thái</th>
@@ -373,16 +339,15 @@
                 document.querySelectorAll('.customer-row').forEach(row => {
                     const cells = row.querySelectorAll('td');
                     content += `
-                        <tr>
-                            <td>${cells[0].textContent.replace('#', '')}</td>
-                            <td>${cells[1].querySelector('.fw-semibold').textContent}</td>
-                            <td>${cells[2].querySelector('span').textContent}</td>
-                            <td>${cells[2].querySelector('small').textContent}</td>
-                            <td>${cells[3].querySelector('.badge').textContent}</td>
-                            <td>${cells[1].querySelector('.text-muted').textContent.replace('Đăng ký: ', '')}</td>
-                            <td>${cells[4].querySelector('.badge').textContent}</td>
-                        </tr>
-                    `;
+                            <tr>
+                                <td>${cells[0].textContent.replace('#', '')}</td>
+                                <td>${cells[1].querySelector('.fw-semibold').textContent}</td>
+                                <td>${cells[2].querySelector('span').textContent}</td> 
+                                <td>${cells[3].querySelector('.badge').textContent}</td>
+                                <td>${cells[1].querySelector('.text-muted').textContent.replace('Đăng ký: ', '')}</td>
+                                <td>${cells[4].querySelector('.badge').textContent}</td>
+                            </tr>
+                        `;
                 });
 
                 content += '</tbody></table>';
@@ -390,19 +355,29 @@
 
             // Tạo file và tải xuống
             const blob = new Blob([content], {
-                type: format === 'csv' ? 'text/csv' : 'text/html'
+                type: format === 'csv' ? 'text/csv;charset=utf-8;' : 'application/vnd.ms-excel'
             });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `khach_hang_${new Date().toISOString().split('T')[0]}.${format}`;
+
+            let extension = format;
+            if (format === 'excel') extension = 'xls'; // Excel thích .xls cho kiểu HTML
+
+            a.download = `khach_hang_${new Date().toISOString().split('T')[0]}.${extension}`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
         }
 
+        // SỬA: Cập nhật printTable để khớp với cột mới
         function printTable() {
+            const tableHtml = document.querySelector('.table-responsive').innerHTML;
+
+            // Cần thay thế HTML của bảng để loại bỏ cột không mong muốn (nếu cần)
+            // Tuy nhiên, vì chúng ta đã sửa view, tableHtml đã ĐÚNG
+
             const printContent = `
                 <!DOCTYPE html>
                 <html>
@@ -412,10 +387,14 @@
                         body { font-family: Arial, sans-serif; margin: 20px; }
                         h1 { color: #2c3e50; text-align: center; margin-bottom: 20px; }
                         table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
-                        th { background: #2c3e50; color: white; padding: 10px; border: 1px solid #34495e; }
-                        td { padding: 8px; border: 1px solid #ddd; }
+                        th, td { padding: 8px; border: 1px solid #ddd; text-align: left; }
                         tr:nth-child(even) { background: #f8f9fa; }
+                        th { background: #f2f2f2; color: #333; }
                         .summary { margin: 20px 0; padding: 15px; background: #e9ecef; border-radius: 5px; }
+                        /* Ẩn các nút bấm khi in */
+                        @media print {
+                            .btn, .btn-group { display: none !important; }
+                        }
                     </style>
                 </head>
                 <body>
@@ -424,7 +403,7 @@
                         <strong>Ngày xuất:</strong> ${new Date().toLocaleDateString('vi-VN')} | 
                         <strong>Tổng số:</strong> ${document.querySelectorAll('.customer-row').length} khách hàng
                     </div>
-                    ${document.querySelector('.table-responsive').innerHTML}
+                    ${tableHtml}
                 </body>
                 </html>
             `;

@@ -46,7 +46,7 @@
                                         <th>Email</th>
                                         <th width="120">Vai trò</th>
                                         <th width="150">Ngày tạo</th>
-                                
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -87,17 +87,17 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <small class="text-muted">
+                                                <small class="text-muted d-block mb-1">
                                                     <i class="fas fa-calendar me-1"></i>
-                                                    {{ $user->created_at ? $user->created_at->format('d/m/Y') : 'N/A' }}
+                                                    {{ $user->created_at ? $user->created_at->timezone('Asia/Ho_Chi_Minh')->format('d/m/Y') : 'N/A' }}
                                                 </small>
-                                                <br>
-                                                <small class="text-muted">
+                                                <small class="text-muted d-block">
                                                     <i class="fas fa-clock me-1"></i>
-                                                    {{ $user->created_at ? $user->created_at->format('H:i') : 'N/A' }}
+                                                    {{ $user->created_at ? $user->created_at->timezone('Asia/Ho_Chi_Minh')->format('H:i') : 'N/A' }}
                                                 </small>
                                             </td>
-                                            
+
+
                                         </tr>
                                     @empty
                                         <tr>

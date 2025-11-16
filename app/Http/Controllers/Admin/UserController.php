@@ -14,9 +14,11 @@ class UserController extends Controller
 {
     public function index()
     {
+        if (auth()->user()->role != 1) {
+            return redirect('/')->with('error', 'Bạn không có quyền truy cập trang admin.');
+        }
         // Hiển thị danh sách người dùng
         $users = User::paginate(10);
-        return view('admin.users.index', compact('users'));
         return view('admin.users.index', compact('users'));
     }
 
@@ -101,30 +103,21 @@ class UserController extends Controller
 
     public function loginpost(Request $request)
     {
-        $request->validate([
-            'email'    => 'required|email',
-            'password' => 'required',
-        ], [
-            'required' => ':attribute không được để trống',
-        ], [
-            'email'    => 'Email',
-            'password' => 'Mật khẩu',
-        ]);
+        // ... validation ...
 
         $user = User::where('email', $request->email)->first();
 
         if (!$user) {
             return redirect()->route('ad.login')
-                ->with('message', 'Email không tồn tại')
+                ->with('error', 'Email không tồn tại') // ✅ SỬA THÀNH 'error'
                 ->withInput();
         }
 
         if (!Hash::check($request->password, $user->password)) {
             return redirect()->route('ad.login')
-                ->with('message', 'Mật khẩu không đúng')
-                ->withInput();
+                ->with('error', 'Mật khẩu không đúng') // ✅ SỬA THÀNH 'error'
+                ->withInput(['email']); // Giữ lại email, bỏ password
         }
-
         $remember = $request->boolean('remember');
         Auth::login($user, $remember);
 
@@ -146,7 +139,7 @@ class UserController extends Controller
 
         if ($user && $user->role == 1) {
             return redirect()->route('ad.login')
-                ->with('message', 'Đăng xuất thành công');
+                ->with('message', 'Log out successfully');
         }
 
         return redirect()->route('homepage')
@@ -166,13 +159,13 @@ class UserController extends Controller
         $user = Auth::user();
 
         if (!$user || !Hash::check($request->current_password, $user->password)) {
-            return back()->with('error', 'Mật khẩu hiện tại không đúng.');
+            return back()->with('error',  'Current password is incorrect.');
         }
 
         $user->password = Hash::make($request->new_password);
         $user->save();
 
-        return back()->with('success', 'Đổi mật khẩu thành công.');
+        return back()->with('success', 'Password changed successfully.');
     }
 
     public function showChangePassForm()
@@ -197,7 +190,7 @@ class UserController extends Controller
 
         if (!$user) {
             return redirect()->route('ad.forgotpass')
-                ->with('message', 'Email không tồn tại trong hệ thống.')
+                ->with('message', 'Email does not exist in the system.')
                 ->withInput();
         }
 
@@ -205,16 +198,16 @@ class UserController extends Controller
         $passencrypte = Hash::make($passrandom);
         $user->update(['password' => $passencrypte]);
 
-        $html = "<h2>Mật khẩu mới của bạn là: $passrandom. 
-                 Vui lòng đổi mật khẩu sau khi đăng nhập.</h2>";
+        $html = "<h2>Your new password is: $passrandom. 
+                Please change your password after logging in..</h2>";
 
         Mail::html($html, function ($message) use ($request) {
             $message->to($request->email)
-                ->subject('Đặt lại mật khẩu');
+                ->subject('Reset Password');
         });
 
         return redirect()->route('ad.forgotpass')
-            ->with('message', 'Mật khẩu mới đã được gửi đến email của bạn.');
+            ->with('message', 'A new password has been sent to your email.');
     }
 
     // ---------------------- PROFILE ----------------------

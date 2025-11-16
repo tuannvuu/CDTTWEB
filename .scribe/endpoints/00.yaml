@@ -1,0 +1,357 @@
+name: Endpoints
+description: ''
+endpoints:
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/products
+    metadata:
+      custom: []
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Lấy danh sách sản phẩm (có phân trang)'
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"current_page":1,"data":[{"id":1,"productname":"B\u00e0n ph\u00edm c\u01a1 Gaming RGB","price":"350000.00","cateid":11,"brandid":1,"description":"B\u00e0n ph\u00edm c\u01a1 h\u1ecdc c\u00f3 \u0111\u00e8n LED RGB, thi\u1ebft k\u1ebf ch\u1ed1ng n\u01b0\u1edbc","fileName":"banphim.jpg","category":null,"brand":{"id":1,"brandname":"Logitech","description":"Th\u01b0\u01a1ng hi\u1ec7u Th\u1ee5y S\u0129 chuy\u00ean s\u1ea3n xu\u1ea5t thi\u1ebft b\u1ecb ngo\u1ea1i vi m\u00e1y t\u00ednh nh\u01b0 chu\u1ed9t, b\u00e0n ph\u00edm, webcam.","image":"logitech.jpg","created_at":null,"updated_at":"2025-09-30T19:50:09.000000Z"}},{"id":2,"productname":"B\u00e0n ph\u00edm kh\u00f4ng d\u00e2y","price":"250000.00","cateid":11,"brandid":1,"description":"K\u1ebft n\u1ed1i bluetooth, th\u1eddi l\u01b0\u1ee3ng pin l\u00e2u","fileName":"banphim2.jpg","category":null,"brand":{"id":1,"brandname":"Logitech","description":"Th\u01b0\u01a1ng hi\u1ec7u Th\u1ee5y S\u0129 chuy\u00ean s\u1ea3n xu\u1ea5t thi\u1ebft b\u1ecb ngo\u1ea1i vi m\u00e1y t\u00ednh nh\u01b0 chu\u1ed9t, b\u00e0n ph\u00edm, webcam.","image":"logitech.jpg","created_at":null,"updated_at":"2025-09-30T19:50:09.000000Z"}},{"id":3,"productname":"Chu\u1ed9t v\u0103n ph\u00f2ng Logitech","price":"150000.00","cateid":9,"brandid":1,"description":"Thi\u1ebft k\u1ebf nh\u1ecf g\u1ecdn, c\u1ed5ng USB","fileName":"chuot.jpg","category":{"cateid":9,"catename":"Ph\u1ee5 ki\u1ec7n","cateimage":null,"created_at":null,"updated_at":null,"description":"C\u00e1c lo\u1ea1i ph\u1ee5 ki\u1ec7n c\u00f4ng ngh\u1ec7","image":"phu_kien.jpg"},"brand":{"id":1,"brandname":"Logitech","description":"Th\u01b0\u01a1ng hi\u1ec7u Th\u1ee5y S\u0129 chuy\u00ean s\u1ea3n xu\u1ea5t thi\u1ebft b\u1ecb ngo\u1ea1i vi m\u00e1y t\u00ednh nh\u01b0 chu\u1ed9t, b\u00e0n ph\u00edm, webcam.","image":"logitech.jpg","created_at":null,"updated_at":"2025-09-30T19:50:09.000000Z"}},{"id":4,"productname":"Chu\u1ed9t ch\u01a1i game RGB","price":"220000.00","cateid":9,"brandid":2,"description":"C\u1ea3m bi\u1ebfn ch\u00ednh x\u00e1c, \u0111\u00e8n LED \u0111\u1ed5i m\u00e0u","fileName":"chuot2.jpg","category":{"cateid":9,"catename":"Ph\u1ee5 ki\u1ec7n","cateimage":null,"created_at":null,"updated_at":null,"description":"C\u00e1c lo\u1ea1i ph\u1ee5 ki\u1ec7n c\u00f4ng ngh\u1ec7","image":"phu_kien.jpg"},"brand":{"id":2,"brandname":"Razer","description":"Th\u01b0\u01a1ng hi\u1ec7u to\u00e0n c\u1ea7u chuy\u00ean v\u1ec1 thi\u1ebft b\u1ecb ch\u01a1i game cao c\u1ea5p: chu\u1ed9t, b\u00e0n ph\u00edm, tai nghe RGB.","image":"razer.jpg","created_at":null,"updated_at":"2025-09-30T19:50:09.000000Z"}},{"id":5,"productname":"iPhone Air","price":"15000000.00","cateid":2,"brandid":3,"description":"M\u1ecfng nh\u1eb9, hi\u1ec7u n\u0103ng m\u1ea1nh","fileName":"ip_air.jpg","category":{"cateid":2,"catename":"\u0110i\u1ec7n tho\u1ea1i","cateimage":null,"created_at":null,"updated_at":null,"description":"Thi\u1ebft b\u1ecb \u0111i\u1ec7n t\u1eed, \u0111i\u1ec7n tho\u1ea1i, laptop","image":"dien_thoai.jpg"},"brand":{"id":3,"brandname":"Apple","description":"T\u1eadp \u0111o\u00e0n c\u00f4ng ngh\u1ec7 M\u1ef9 n\u1ed5i ti\u1ebfng v\u1edbi c\u00e1c s\u1ea3n ph\u1ea9m iPhone, iPad, MacBook, AirPods.","image":"apple.jpg","created_at":null,"updated_at":"2025-09-30T19:50:09.000000Z"}}],"first_page_url":"http:\/\/localhost\/api\/products?page=1","from":1,"last_page":19,"last_page_url":"http:\/\/localhost\/api\/products?page=19","links":[{"url":null,"label":"&laquo; Previous","page":null,"active":false},{"url":"http:\/\/localhost\/api\/products?page=1","label":"1","page":1,"active":true},{"url":"http:\/\/localhost\/api\/products?page=2","label":"2","page":2,"active":false},{"url":"http:\/\/localhost\/api\/products?page=3","label":"3","page":3,"active":false},{"url":"http:\/\/localhost\/api\/products?page=4","label":"4","page":4,"active":false},{"url":"http:\/\/localhost\/api\/products?page=5","label":"5","page":5,"active":false},{"url":"http:\/\/localhost\/api\/products?page=6","label":"6","page":6,"active":false},{"url":"http:\/\/localhost\/api\/products?page=7","label":"7","page":7,"active":false},{"url":"http:\/\/localhost\/api\/products?page=8","label":"8","page":8,"active":false},{"url":"http:\/\/localhost\/api\/products?page=9","label":"9","page":9,"active":false},{"url":"http:\/\/localhost\/api\/products?page=10","label":"10","page":10,"active":false},{"url":null,"label":"...","active":false},{"url":"http:\/\/localhost\/api\/products?page=18","label":"18","page":18,"active":false},{"url":"http:\/\/localhost\/api\/products?page=19","label":"19","page":19,"active":false},{"url":"http:\/\/localhost\/api\/products?page=2","label":"Next &raquo;","page":2,"active":false}],"next_page_url":"http:\/\/localhost\/api\/products?page=2","path":"http:\/\/localhost\/api\/products","per_page":5,"prev_page_url":null,"to":5,"total":92}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/products
+    metadata:
+      custom: []
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Thêm một sản phẩm mới'
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: multipart/form-data
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      proname:
+        custom: []
+        name: proname
+        description: 'Must not be greater than 255 characters.'
+        required: true
+        example: vmqeopfuudtdsufvyvddq
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      price:
+        custom: []
+        name: price
+        description: 'Must be at least 0.'
+        required: true
+        example: 1
+        type: number
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      brandid:
+        custom: []
+        name: brandid
+        description: ''
+        required: true
+        example: 17
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      cateid:
+        custom: []
+        name: cateid
+        description: ''
+        required: true
+        example: 17
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      description:
+        custom: []
+        name: description
+        description: ''
+        required: false
+        example: 'Dolores dolorum amet iste laborum eius est dolor.'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+      fileName:
+        custom: []
+        name: fileName
+        description: 'Must be an image. Must not be greater than 5120 kilobytes.'
+        required: true
+        example: null
+        type: file
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      proname: vmqeopfuudtdsufvyvddq
+      price: 1
+      brandid: 17
+      cateid: 17
+      description: 'Dolores dolorum amet iste laborum eius est dolor.'
+    fileParameters:
+      fileName: null
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: 'api/products/{id}'
+    metadata:
+      custom: []
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Lấy thông tin chi tiết 1 sản phẩm'
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        custom: []
+        name: id
+        description: 'The ID of the product.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"id":1,"proname":"B\u00e0n ph\u00edm c\u01a1 Gaming RGB","price":"350000.00","description":"B\u00e0n ph\u00edm c\u01a1 h\u1ecdc c\u00f3 \u0111\u00e8n LED RGB, thi\u1ebft k\u1ebf ch\u1ed1ng n\u01b0\u1edbc","cateid":11,"created_at":"2025-09-30T19:58:59.000000Z","updated_at":"2025-09-30T19:58:59.000000Z","brandid":1,"fileName":"banphim.jpg","stock_quantity":11,"category":null,"brand":{"id":1,"brandname":"Logitech","description":"Th\u01b0\u01a1ng hi\u1ec7u Th\u1ee5y S\u0129 chuy\u00ean s\u1ea3n xu\u1ea5t thi\u1ebft b\u1ecb ngo\u1ea1i vi m\u00e1y t\u00ednh nh\u01b0 chu\u1ed9t, b\u00e0n ph\u00edm, webcam.","image":"logitech.jpg","created_at":null,"updated_at":"2025-09-30T19:50:09.000000Z"}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - PUT
+      - PATCH
+    uri: 'api/products/{id}'
+    metadata:
+      custom: []
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Cập nhật thông tin sản phẩm'
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: multipart/form-data
+      Accept: application/json
+    urlParameters:
+      id:
+        custom: []
+        name: id
+        description: 'The ID of the product.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      proname:
+        custom: []
+        name: proname
+        description: 'Must not be greater than 255 characters.'
+        required: true
+        example: vmqeopfuudtdsufvyvddq
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      price:
+        custom: []
+        name: price
+        description: 'Must be at least 0.'
+        required: true
+        example: 1
+        type: number
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      brandid:
+        custom: []
+        name: brandid
+        description: ''
+        required: true
+        example: 17
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      cateid:
+        custom: []
+        name: cateid
+        description: ''
+        required: true
+        example: 17
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      description:
+        custom: []
+        name: description
+        description: ''
+        required: false
+        example: 'Dolores dolorum amet iste laborum eius est dolor.'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+      fileName:
+        custom: []
+        name: fileName
+        description: 'Must be an image. Must not be greater than 5120 kilobytes.'
+        required: false
+        example: null
+        type: file
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+    cleanBodyParameters:
+      proname: vmqeopfuudtdsufvyvddq
+      price: 1
+      brandid: 17
+      cateid: 17
+      description: 'Dolores dolorum amet iste laborum eius est dolor.'
+    fileParameters:
+      fileName: null
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/user
+    metadata:
+      custom: []
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 500
+        content: |-
+          {
+              "message": "Server Error"
+          }
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null

@@ -11,6 +11,9 @@ class CategoryController extends Controller
 {
     public function index(Request $request)
     {
+         if (auth()->user()->role != 1) {
+        return redirect('/')->with('error', 'Bạn không có quyền truy cập trang admin.');
+    }
         $list = Category::with('products')
             ->orderByRaw("CASE WHEN LOWER(TRIM(catename)) = 'tất cả danh mục' THEN 1 ELSE 0 END, catename ASC")
             ->paginate(6);

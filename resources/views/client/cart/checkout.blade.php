@@ -77,14 +77,16 @@
                                     <div class="col-md-6">
                                         <div class="form-floating">
                                             <input type="text" class="form-control" id="f-fullname" name="fullname"
-                                                value="{{ old('fullname') }}" placeholder="Họ và tên" required>
+                                                value="{{ old('fullname', $user->name ?? '') }}" placeholder="Họ và tên"
+                                                required>
                                             <label for="f-fullname">Họ và tên *</label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating">
                                             <input type="text" class="form-control" id="f-tel" name="tel"
-                                                value="{{ old('tel') }}" placeholder="Số điện thoại" required>
+                                                value="{{ old('tel', $user->tel ?? '') }}" placeholder="Số điện thoại"
+                                                required>
                                             <label for="f-tel">Số điện thoại *</label>
                                         </div>
                                     </div>
@@ -92,7 +94,8 @@
 
                                 <div class="form-floating">
                                     <input type="text" class="form-control" id="f-address" name="address"
-                                        value="{{ old('address') }}" placeholder="Địa chỉ giao hàng" required>
+                                        value="{{ old('address', $user->address ?? '') }}"
+                                        placeholder="Địa chỉ giao hàng" required>
                                     <label for="f-address">Địa chỉ giao hàng *</label>
                                 </div>
 

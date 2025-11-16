@@ -39,4 +39,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class, 'customerid', 'id');
     }
+  // app/Models/User.php - thêm các relationships
+public function shippingAddresses()
+{
+    return $this->hasMany(ShippingAddress::class);
+}
+
+public function defaultAddress()
+{
+    return $this->hasOne(ShippingAddress::class)->where('is_default', true);
+}
 }

@@ -3,7 +3,7 @@
 @section('title', 'Sản phẩm')
 
 @section('content')
-<link href="{{ asset('css/ad.index.pro.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/ad.index.pro.css') }}" rel="stylesheet" />
 
     <div class="container-fluid py-4">
         <div class="header-actions">
@@ -99,11 +99,13 @@
                                         <span class="badge bg-light text-dark">{{ $loop->iteration }}</span>
                                     </td>
                                     <td>
-                                        <span class="category-badge">{{ $item->category->catename ?? 'Chưa có danh mục' }}</span>
+                                        <span
+                                            class="category-badge">{{ $item->category->catename ?? 'Chưa có danh mục' }}</span>
 
                                     </td>
                                     <td>
-                                        <span class="brand-badge">{{ $item->brand->brandname ?? 'Chưa có thương hiệu' }}</span>
+                                        <span
+                                            class="brand-badge">{{ $item->brand->brandname ?? 'Chưa có thương hiệu' }}</span>
 
                                     </td>
                                     <td>
@@ -114,36 +116,32 @@
                                     <td>
                                         <span class="price">{{ number_format($item->price, 0, ',', '.') }} ₫</span>
                                     </td>
-       <td>
-   @php
-    $imagePath = $item->fileName;
-    if ($imagePath && !Str::startsWith($imagePath, 'products/')) {
-        $imagePath = 'products/' . $imagePath;
-    }
-@endphp
+                                    <td>
+                                        @php
+                                            $imagePath = $item->fileName;
+                                            if ($imagePath && !Str::startsWith($imagePath, 'products/')) {
+                                                $imagePath = 'products/' . $imagePath;
+                                            }
+                                        @endphp
 
-<img src="{{ asset('storage/' . $imagePath) }}"
-     alt="{{ $item->proname }}"
-     style="max-height:100px; object-fit:contain;">
+                                        <img src="{{ asset('storage/' . $imagePath) }}" alt="{{ $item->proname }}"
+                                            style="max-height:100px; object-fit:contain;">
 
-</td>
-
-
-
+                                    </td>
 
                                     <td>
                                         <div class="action-buttons">
                                             <a href="{{ route('ad.pro.edit', $item->id) }}" class="btn btn-sm btn-warning">
                                                 <i class="fas fa-edit me-1"></i>Sửa
                                             </a>
-                                          <form action="{{ route('ad.pro.delete', $item->id) }}" method="POST"
-    onsubmit="return confirm('Bạn có chắc muốn xóa sản phẩm này?');">
-    @csrf
-    @method('DELETE')
-    <button type="submit" class="btn btn-sm btn-danger">
-        <i class="fas fa-trash me-1"></i>Xóa
-    </button>
-</form>
+                                            <form action="{{ route('ad.pro.delete', $item->id) }}" method="POST"
+                                                onsubmit="return confirm('Bạn có chắc muốn xóa sản phẩm này?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger">
+                                                    <i class="fas fa-trash me-1"></i>Xóa
+                                                </button>
+                                            </form>
 
                                         </div>
                                     </td>

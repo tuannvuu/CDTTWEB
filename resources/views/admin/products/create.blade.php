@@ -42,14 +42,13 @@
                         <div class="input-group">
                           <input type="text" name="price" class="form-control" id="f-price"
     value="{{ old('price') }}" required placeholder="Nhập giá sản phẩm">
-
                             <span class="input-group-text">₫</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-4 mb-3">
                         <label for="f-brandid" class="form-label required">Thương hiệu</label>
                         <select name="brandid" id="f-brandid" class="form-select" required>
                             <option value="">-- Chọn thương hiệu --</option>
@@ -61,7 +60,7 @@
                         </select>
                     </div>
 
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-4 mb-3">
                         <label for="f-cateid" class="form-label required">Danh mục</label>
                         <select name="cateid" id="f-cateid" class="form-select" required>
                             <option value="">-- Chọn danh mục --</option>
@@ -71,6 +70,14 @@
                                 </option>
                             @endforeach
                         </select>
+                    </div>
+
+                    <!-- ✅ THÊM FIELD STOCK_QUANTITY VÀO ĐÂY -->
+                    <div class="col-md-4 mb-3">
+                        <label for="f-stock_quantity" class="form-label required">Số lượng tồn kho</label>
+                        <input type="number" name="stock_quantity" class="form-control" id="f-stock_quantity"
+                            value="{{ old('stock_quantity', 0) }}" required min="0"
+                            placeholder="Nhập số lượng">
                     </div>
                 </div>
             </div>

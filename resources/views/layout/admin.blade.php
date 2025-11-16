@@ -113,12 +113,9 @@
                                         {{ Auth::user()->name ?? 'Admin' }}
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li>
-                                            <a class="dropdown-item" href="{{ url('/admin/change-password') }}">
-                                                <!-- Sửa thành URL tạm -->
-                                                <i class="fas fa-key me-2"></i>Đổi mật khẩu
-                                            </a>
-                                        </li>
+                                        <a class="dropdown-item" href="{{ route('ad.changepass.form') }}">
+                                            <i class="fas fa-key me-2"></i>Đổi mật khẩu
+                                        </a>
                                         <li>
                                             <hr class="dropdown-divider">
                                         </li>
@@ -162,7 +159,7 @@
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    @stack('scripts')
+    @yield('scripts')
 
 </body>
 

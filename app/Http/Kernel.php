@@ -50,6 +50,8 @@ class Kernel extends HttpKernel
     ];
 
     protected $routeMiddleware = [
+        'admin' => \App\Http\Middleware\CheckAdmin::class,
+
         'auth' => \App\Http\Middleware\Authenticate::class,
         'role' => \App\Http\Middleware\RoleMiddleware::class, // Nếu bạn thêm middleware RoleMiddleware
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,

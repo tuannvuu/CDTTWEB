@@ -75,7 +75,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-4 mb-3">
                         <label for="brandid" class="form-label required">Thương hiệu</label>
                         <select name="brandid" id="brandid" class="form-select" required>
                             @foreach ($brands as $brand)
@@ -87,7 +87,7 @@
                         </select>
                     </div>
 
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-4 mb-3">
                         <label for="cateid" class="form-label required">Danh mục</label>
                         <select name="cateid" id="cateid" class="form-select" required>
                             @foreach ($categories as $category)
@@ -97,6 +97,14 @@
                                 </option>
                             @endforeach
                         </select>
+                    </div>
+
+                    <!-- ✅ THÊM FIELD STOCK_QUANTITY VÀO ĐÂY -->
+                    <div class="col-md-4 mb-3">
+                        <label for="stock_quantity" class="form-label required">Số lượng tồn kho</label>
+                        <input type="number" name="stock_quantity" class="form-control" id="stock_quantity"
+                            value="{{ old('stock_quantity', $product->stock_quantity) }}" required min="0"
+                            placeholder="Nhập số lượng">
                     </div>
                 </div>
             </div>
@@ -118,8 +126,13 @@
 
                 @php
                     $imagePath = null;
+                    if ($product->fileName) {
+                        echo "<!-- Debug: fileName = " . $product->fileName . " -->";
+                    }
                     if ($product->fileName && file_exists(public_path('storage/products/' . $product->fileName))) {
                         $imagePath = 'storage/products/' . $product->fileName;
+                    } else {
+                        echo "<!-- Debug: File not found: storage/products/" . ($product->fileName ?? 'null') . " -->";
                     }
                 @endphp
 

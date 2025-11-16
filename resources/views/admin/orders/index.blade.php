@@ -4,7 +4,6 @@
 
 @section('content')
     <div class="container-fluid py-4">
-        <!-- Page Header -->
         <div class="page-header bg-gradient-primary rounded-3 mb-4">
             <div class="row align-items-center">
                 <div class="col-md-8">
@@ -43,7 +42,6 @@
             </div>
         </div>
 
-        <!-- Stats Cards -->
         <div class="row mb-4">
             <div class="col-md-3 mb-3">
                 <div class="stats-card">
@@ -59,7 +57,7 @@
             </div>
             <div class="col-md-3 mb-3">
                 <div class="stats-card">
-                    <div class="stats-number">{{ $orders->sum(fn($order) => $order->items->count()) }}</div>
+                    <div class="stats-number">{{ $orders->sum(fn($order) => $order->items->sum('quantity')) }}</div>
                     <div class="stats-label">Tổng sản phẩm</div>
                 </div>
             </div>
@@ -71,7 +69,6 @@
             </div>
         </div>
 
-        <!-- Search and Filter -->
         <div class="card shadow-sm mb-4">
             <div class="card-body">
                 <div class="row g-3">
@@ -100,8 +97,8 @@
                         <select class="form-select" id="sortBy">
                             <option value="newest">Mới nhất</option>
                             <option value="oldest">Cũ nhất</option>
-                            <option value="most_items">Nhiều sản phẩm</option>
-                            <option value="least_items">Ít sản phẩm</option>
+                            <option value="highest_total">Tổng tiền cao nhất</option>
+                            <option value="lowest_total">Tổng tiền thấp nhất</option>
                         </select>
                     </div>
                     <div class="col-md-3">
@@ -118,7 +115,6 @@
             </div>
         </div>
 
-        <!-- Table Container -->
         <div class="table-container">
             <div class="table-header">
                 <h3><i class="fas fa-list me-2"></i>Danh sách Đơn hàng</h3>
@@ -129,16 +125,17 @@
                 <table class="table table-hover align-middle mb-0">
                     <thead>
                         <tr>
-                            <th width="100" class="text-center">MÃ ĐƠN</th>
-                            <th>THÔNG TIN ĐƠN HÀNG</th>
+                            <th width="80" class="text-center">MÃ ĐƠN</th>
+                            <th>THÔNG TIN KHÁCH HÀNG</th>
                             <th width="120" class="text-center">SẢN PHẨM</th>
+                            <th width="150" class="text-end">TỔNG TIỀN</th>
                             <th width="150" class="text-center">TRẠNG THÁI</th>
-                           
+                            <th width="120" class="text-center">HÀNH ĐỘNG</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($orders as $order)
-                            <tr class="order-row">
+                            <tr class="order-row" data-order-id="{{ $order->id }}" data-status="{{ $order->status }}">
                                 <td class="text-center">
                                     <div class="fw-bold text-primary">#{{ $order->id }}</div>
                                     <small class="text-muted">{{ $order->created_at->format('d/m/Y') }}</small>
@@ -150,16 +147,16 @@
                                             <i class="fas fa-user"></i>
                                         </div>
                                         <div class="flex-grow-1">
-                                            <div class="fw-semibold text-dark mb-1">
-                                                {{ $order->customer->fullname ?? 'Khách vãng lai' }}
+                                            <div class="fw-semibold text-dark mb-1 customer-name">
+                                                {{ $order->fullname ?? 'Khách vãng lai' }}
                                             </div>
                                             <div class="text-muted small">
-                                                <i class="fas fa-phone me-1"></i>{{ $order->customer->tel ?? 'N/A' }}
+                                                <i class="fas fa-phone me-1"></i>{{ $order->tel ?? 'N/A' }}
                                             </div>
                                             <div class="text-muted small">
                                                 <i class="fas fa-map-marker-alt me-1"></i>
                                                 <span class="text-truncate d-inline-block" style="max-width: 200px;">
-                                                    {{ $order->customer->address ?? 'Chưa cập nhật' }}
+                                                    {{ $order->address ?? 'Chưa cập nhật' }}
                                                 </span>
                                             </div>
                                         </div>
@@ -174,6 +171,12 @@
                                             {{ $order->items->sum('quantity') }} cái
                                         </small>
                                     </div>
+                                </td>
+                                <td class="text-end">
+                                    <div class="fw-bold text-danger fs-6 order-total">
+                                        {{ number_format($order->total ?? 0, 0, ',', '.') }}₫
+                                    </div>
+
                                 </td>
                                 <td class="text-center">
                                     @php
@@ -193,11 +196,23 @@
                                         <small class="text-muted">{{ $order->created_at->format('H:i') }}</small>
                                     </div>
                                 </td>
+                                <td class="text-center">
+                                    <div class="btn-group" role="group">
+                                        {{-- Nút Chi tiết --}}
+                                        <a href="{{ route('ad.orders.show', $order->id) }}"
+                                            class="btn btn-sm btn-outline-info" data-bs-toggle="tooltip"
+                                            title="Chi tiết đơn hàng">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
 
+
+
+                                    </div>
+                                </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5">
+                                <td colspan="6">
                                     <div class="empty-state">
                                         <i class="fas fa-shopping-cart fa-3x mb-3"></i>
                                         <h5>Chưa có đơn hàng nào</h5>
@@ -211,7 +226,6 @@
             </div>
         </div>
 
-        <!-- Pagination -->
         @if ($orders->hasPages())
             <div class="d-flex justify-content-between align-items-center mt-4">
                 <div class="text-muted">
@@ -224,7 +238,6 @@
         @endif
     </div>
 
-    <!-- Export Modal -->
     <div class="modal fade" id="exportModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -266,17 +279,25 @@
             const filterStatus = document.getElementById('filterStatus');
             const filterDate = document.getElementById('filterDate');
             const sortBy = document.getElementById('sortBy');
-            const orderRows = document.querySelectorAll('.order-row');
+            const tableBody = document.querySelector('.table-hover tbody');
+            const orderRows = Array.from(document.querySelectorAll('.order-row'));
 
-            applyFilters.addEventListener('click', function() {
-                const searchTerm = searchInput.value.toLowerCase();
-                const statusValue = filterStatus.value;
-                const dateValue = filterDate.value;
+            // Hàm chuyển đổi tiền tệ sang số để so sánh
+            const currencyToNumber = (currencyStr) => {
+                if (!currencyStr) return 0;
+                return parseFloat(currencyStr.replace(/[^0-9]/g, ''));
+            };
 
-                orderRows.forEach(row => {
+
+            function applyAndSort() {
+                let filteredRows = orderRows.filter(row => {
+                    const searchTerm = searchInput.value.toLowerCase();
+                    const statusValue = filterStatus.value;
+                    const dateValue = filterDate.value;
+
                     const text = row.textContent.toLowerCase();
-                    const status = row.querySelector('.badge').textContent.toLowerCase();
-                    const date = row.querySelector('small.text-muted').textContent;
+                    const rowStatus = row.getAttribute('data-status'); // Lấy trạng thái từ data attribute
+                    const rowDate = row.querySelector('small.text-muted').textContent; // Lấy ngày tạo
 
                     let show = true;
 
@@ -286,28 +307,85 @@
                     }
 
                     // Status filter
-                    if (statusValue && !status.includes(statusValue)) {
+                    if (statusValue && rowStatus !== statusValue) {
                         show = false;
                     }
 
-                    // Date filter
-                    if (dateValue && !date.includes(dateValue)) {
-                        show = false;
+                    // Date filter (Bạn cần format lại ngày trong Blade để khớp với input date)
+                    // Hiện tại chỉ lọc theo ngày/tháng/năm
+                    if (dateValue) {
+                        const formattedDate = new Date(rowDate.split('/').reverse().join('-')).toISOString()
+                            .substring(0, 10);
+                        if (formattedDate !== dateValue) {
+                            show = false;
+                        }
                     }
 
-                    row.style.display = show ? '' : 'none';
+                    return show;
                 });
-            });
+
+                // Sorting
+                const sortValue = sortBy.value;
+                filteredRows.sort((a, b) => {
+                    const dateA = new Date(a.querySelector('small.text-muted').textContent.split('/')
+                        .reverse().join('-'));
+                    const dateB = new Date(b.querySelector('small.text-muted').textContent.split('/')
+                        .reverse().join('-'));
+                    const totalA = currencyToNumber(a.querySelector('.order-total').textContent);
+                    const totalB = currencyToNumber(b.querySelector('.order-total').textContent);
+                    const itemsA = parseInt(a.querySelector('.badge.bg-primary').textContent);
+                    const itemsB = parseInt(b.querySelector('.badge.bg-primary').textContent);
+
+                    switch (sortValue) {
+                        case 'newest':
+                            return dateB - dateA;
+                        case 'oldest':
+                            return dateA - dateB;
+                        case 'highest_total':
+                            return totalB - totalA;
+                        case 'lowest_total':
+                            return totalA - totalB;
+                        case 'most_items': // Thêm logic cho việc sắp xếp theo số lượng sản phẩm (đã thêm vào Blade)
+                            return itemsB - itemsA;
+                        case 'least_items':
+                            return itemsA - itemsB;
+                        default:
+                            return 0;
+                    }
+                });
+
+                // Update table display
+                tableBody.innerHTML = '';
+                if (filteredRows.length > 0) {
+                    filteredRows.forEach(row => tableBody.appendChild(row));
+                } else {
+                    // Hiển thị trạng thái rỗng
+                    tableBody.innerHTML =
+                        `<tr><td colspan="6"><div class="empty-state"><i class="fas fa-search fa-3x mb-3"></i><h5>Không tìm thấy đơn hàng</h5><p class="mb-0">Vui lòng thử tìm kiếm với các tiêu chí khác.</p></div></td></tr>`;
+                }
+            }
+
+
+            applyFilters.addEventListener('click', applyAndSort);
+            sortBy.addEventListener('change', applyAndSort); // Tự động sắp xếp khi thay đổi tiêu chí
 
             resetFilters.addEventListener('click', function() {
                 searchInput.value = '';
                 filterStatus.value = '';
                 filterDate.value = '';
                 sortBy.value = 'newest';
+
+                // Trả về trạng thái ban đầu của bảng
+                tableBody.innerHTML = '';
+                orderRows.forEach(row => tableBody.appendChild(row));
+
+                // Cập nhật lại phân trang (cần reload trang hoặc dùng AJAX)
+                // Hiện tại chỉ ẩn/hiện rows, nên ta chỉ cần đảm bảo tất cả rows được hiển thị
                 orderRows.forEach(row => row.style.display = '');
             });
         });
 
+        // Hàm export và alert (giữ nguyên)
         function exportToExcel() {
             showExportModal('excel');
         }
@@ -331,14 +409,21 @@
             }, 1500);
         }
 
-        function editOrder(id) {
-            alert('Chức năng cập nhật đơn hàng #' + id);
-        }
-
         function confirmDelete(id, name) {
             if (confirm(`Bạn có chắc muốn hủy ${name}?`)) {
+                // Thêm logic AJAX/form submit để hủy đơn hàng tại đây
                 alert('Đã hủy: ' + name);
             }
         }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Khởi tạo tooltip sau khi DOM load
+        document.addEventListener('DOMContentLoaded', function() {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            })
+        });
     </script>
 @endsection

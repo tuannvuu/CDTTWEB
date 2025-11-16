@@ -57,10 +57,16 @@ class LoginController extends Controller
      */
     public function logout(Request $request)
     {
+        $isAdmin = Auth::user() && Auth::user()->role == 1; // Kiểm tra trước khi logout
+
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
+        if ($isAdmin) {
+            return redirect()->route('ad.login')->with('success', 'Bạn đã đăng xuất.');
+        }
+        // User thường logout, có thể về trang chủ hoặc trang login client
         return redirect()->route('login')->with('success', 'Bạn đã đăng xuất.');
     }
 }

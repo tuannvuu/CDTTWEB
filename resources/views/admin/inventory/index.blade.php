@@ -101,41 +101,7 @@
             </div>
         </div>
 
-        <!-- Filter and Actions -->
-        <div class="card border-0 shadow-sm mb-4">
-            <div class="card-body py-3">
-                <div class="row align-items-center">
-                    <div class="col-md-6">
-                        <div class="d-flex align-items-center gap-2">
-                            <span class="text-muted">Lọc theo:</span>
-                            <div class="dropdown">
-                                <button class="btn btn-outline-secondary dropdown-toggle" type="button"
-                                    data-bs-toggle="dropdown">
-                                    Tất cả trạng thái
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Tất cả</a></li>
-                                    <li><a class="dropdown-item" href="#">Tồn kho cao</a></li>
-                                    <li><a class="dropdown-item" href="#">Tồn kho trung bình</a></li>
-                                    <li><a class="dropdown-item" href="#">Sắp hết hàng</a></li>
-                                    <li><a class="dropdown-item" href="#">Hết hàng</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 text-md-end">
-                        <div class="d-flex justify-content-md-end gap-2">
-                            <button class="btn btn-outline-secondary d-flex align-items-center">
-                                <i class="bi bi-download me-1"></i> Xuất Excel
-                            </button>
-                            <button class="btn btn-outline-secondary d-flex align-items-center">
-                                <i class="bi bi-printer me-1"></i> In báo cáo
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
 
         <!-- Products Table -->
         <div class="card border-0 shadow-sm">
